@@ -1,0 +1,7 @@
+{
+  "name": "APP_METCI",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
