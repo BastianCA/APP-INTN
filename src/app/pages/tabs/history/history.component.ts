@@ -130,9 +130,8 @@ export class HistoryComponent implements OnInit {
   }
 
   async openSendData(element: any) {
-    console.log(element);
 
-    const client = JSON.parse(element.client_data);
+    const client_approve = JSON.parse(element.client_data);
     const datosEnsayos = JSON.parse(element.data);
     datosEnsayos.idTest = element.idTest;
     const estados = JSON.parse(element.tests_status);
@@ -149,7 +148,7 @@ export class HistoryComponent implements OnInit {
       },
       estados: estados,
       client: JSON.parse(element.client_data),
-      clientApproves: client.clientApproves,
+      clientApproves: client_approve,
       photos: {
         firstPhoto: photos[0],
         secondPhoto: photos[1],

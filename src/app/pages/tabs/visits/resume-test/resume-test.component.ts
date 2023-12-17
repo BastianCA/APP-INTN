@@ -174,6 +174,7 @@ export class ResumeTestComponent implements OnInit {
         this.dataBaseServices.editTest(
           this.datosEnsayos.idTest,
           this.datosEnsayos,
+          body.clientApproves,
           'Terminado Enviado',
           this.estados,
           body.photos
@@ -183,6 +184,7 @@ export class ResumeTestComponent implements OnInit {
         this.dataBaseServices.editTest(
           this.datosEnsayos.idTest,
           this.datosEnsayos,
+          body.clientApproves,
           'Terminado No Enviado',
           this.estados,
           body.photos

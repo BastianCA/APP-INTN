@@ -80,6 +80,7 @@ export class DatabaseService {
       client_id INTEGER,
       data TEXT,
       client_data TEXT,
+      client_approve TEXT,
       status TEXT,
       tests_status TEXT,
       fecha TEXT DEFAULT (strftime('%Y-%m-%d', 'now')),
@@ -126,11 +127,12 @@ export class DatabaseService {
 
   async addTest(testData: any) {
     const insertQuery =
-      'INSERT INTO test (client_id, data, client_data, photos , status, tests_status) VALUES (?, ?, ?, ?, ?, ?)';
+      'INSERT INTO test (client_id, data, client_data, client_approve, photos , status, tests_status) VALUES (?, ?, ?, ?, ?, ?, ?)';
     const values = [
       testData.clientId,
       JSON.stringify(testData.jsonData),
       JSON.stringify(testData.clientData),
+      JSON.stringify(testData.clientApproves),
       JSON.stringify(testData.photos),
       testData.status,
       JSON.stringify(testData.testStatus),
@@ -142,14 +144,16 @@ export class DatabaseService {
   async editTest(
     testId: any,
     jsonData: any,
+    clientApproves: any,
     status: any,
     testStatus: any,
     photos: any
   ) {
     const updateQuery =
-      'UPDATE test SET data = ?, status = ?, photos = ?, tests_status = ? WHERE idTest = ?';
+      'UPDATE test SET data = ?, client_approve = ?, status = ?, photos = ?, tests_status = ? WHERE idTest = ?';
     const values = [
       JSON.stringify(jsonData),
+      JSON.stringify(clientApproves),
       status,
       JSON.stringify(photos),
       JSON.stringify(testStatus),

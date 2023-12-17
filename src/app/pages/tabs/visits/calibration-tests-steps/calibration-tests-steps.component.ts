@@ -249,7 +249,6 @@ export class CalibrationTestsStepsComponent implements OnInit {
           if ((await this.validateStepExentricitie()) && mep) {
             this.steps[this.currentStep].completed = true;
             this.saveCurrenStep();
-            this.inputPrincipalValue = '';
           } else {
             this.generalServices.presentAlert(
               'Verificación Rechazada',
@@ -267,7 +266,6 @@ export class CalibrationTestsStepsComponent implements OnInit {
         );
         if ((await this.validateStepPreChargeAndRepeat()) && mep1) {
           this.saveCurrenStep();
-          this.inputPrincipalValue = '';
         } else {
           this.generalServices.presentAlert(
             'Verificación Rechazada',
@@ -341,6 +339,7 @@ export class CalibrationTestsStepsComponent implements OnInit {
     this.updateTestData('No Terminado');
     this.currentStep++;
     this.formGroup = new FormGroup({});
+    this.inputPrincipalValue = '';
     this.initForm(this.steps[this.currentStep]);
     this.presentToast();
   }
@@ -363,6 +362,7 @@ export class CalibrationTestsStepsComponent implements OnInit {
     await this.databaseService.editTest(
       this.testData[this.testData.length - 1].idTest,
       jsonData,
+      '',
       status,
       estados,
       []
@@ -376,6 +376,8 @@ export class CalibrationTestsStepsComponent implements OnInit {
     }
     this.formsValues[this.currentStep] =
       this.steps[this.currentStep].repeatSteps;
+    // if (this.steps[this.currentStep].principalInput) {
+    // }
     this.updateTestData('No Terminado');
     this.presentToast();
     setTimeout(() => {
@@ -501,6 +503,12 @@ export class CalibrationTestsStepsComponent implements OnInit {
         this.formGroup.get(paramName)?.setValue(value);
       });
     }
+    if (this.steps[this.currentStep].principalInput) {
+      const name: any = this.steps[this.currentStep].principalInput?.paramName;
+      const valuePrincipal = values[name] ? values[name] : '';
+      this.inputPrincipalValue = valuePrincipal;
+      this.formGroup.get(name)?.setValue(valuePrincipal);
+    }
   }
 
   addStepTest() {
@@ -529,13 +537,15 @@ export class CalibrationTestsStepsComponent implements OnInit {
           //@ts-ignore
           this.formGroup.get('eMep')?.setValue('REP');
         }
-        this.steps[this.currentStep].repeatSteps.push(
-          this.formGroup.getRawValue()
-        );
+        this.steps[this.currentStep].repeatSteps.push({
+          cargaAplicada: this.inputPrincipalValue,
+          ...this.formGroup.getRawValue(),
+        });
       } else {
-        this.steps[this.currentStep].repeatSteps.push(
-          this.formGroup.getRawValue()
-        );
+        this.steps[this.currentStep].repeatSteps.push({
+          cargaAplicada: this.inputPrincipalValue,
+          ...this.formGroup.getRawValue(),
+        });
       }
 
       if (this.currentStep === 2) {
