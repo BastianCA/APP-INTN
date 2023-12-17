@@ -1,0 +1,10 @@
+<div class="error-modal-container">
+  <ion-icon [class]="icon ?'icon-success':'icon-class'" [name]="errorData.icon" size="large"></ion-icon>
+  <p style="font-size: 16px; font-weight: 800; margin-top: 10px; margin-bottom: 0;">{{errorData.header}}</p>
+  <p style="text-align: center; margin-bottom: 0;">{{errorData.message}}</p>
+  <div style="display: flex; justify-content: space-around; width: 100%; margin-top: 20px;">
+    <ion-button color="primary" (click)="closeSucces()"
+      style="font-weight: bold;">{{errorData.buttonSucces}}</ion-button>
+    <ion-button color="light" (click)="closeModal()">{{errorData.buttonCancel}}</ion-button>
+  </div>
+</div>

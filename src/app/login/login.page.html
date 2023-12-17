@@ -1,0 +1,23 @@
+<ion-header>
+
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="title">
+    <h4>Inicio de Sesion</h4>
+  </div>
+
+  <ion-input placeholder="Email" class="primary-input" [(ngModel)]="userName"></ion-input>
+  <ion-input placeholder="Contraseña" type="password" class="primary-input" [(ngModel)]="password"></ion-input>
+
+  <div class="ion-margin-top ion-text-right forget">
+  </div>
+
+  <div class="ion-margin-top">
+    <ion-button expand="block" (click)="checkInternetConnection()">Ingresar</ion-button>
+  </div>
+
+  <div class="ion-margin-top ion-text-center">
+    <a (click)="dismiss()">Cerrar</a>
+  </div>
+</ion-content>

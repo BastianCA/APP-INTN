@@ -1,0 +1,20 @@
+<ion-tabs #tabs (ionTabsDidChange)="setCurrentTab()">
+  <ion-tab-bar slot="bottom">
+    <ion-tab-button tab="home">
+      Mapa
+      <ion-icon name="location-outline"></ion-icon>
+    </ion-tab-button>
+    <ion-tab-button tab="visits">
+      Visitas
+      <ion-icon name="newspaper-outline"></ion-icon>
+    </ion-tab-button>
+    <!-- <ion-tab-button tab="routes">
+      Rutas
+      <ion-icon name="calendar-outline"></ion-icon>
+    </ion-tab-button> -->
+    <ion-tab-button tab="history">
+      Historial
+      <ion-icon name="book-outline"></ion-icon>
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-tabs>

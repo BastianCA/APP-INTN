@@ -1,0 +1,22 @@
+<ion-content class="ion-padding ion-text-center" color="light">
+  <ion-toolbar style="--background: transparent">
+    <div style="display: flex; align-items: center;" slot="end">
+      <p style="margin-right: 15px; font-weight: bold;">{{ wifi ? 'Conectado' : 'Sin Conexión'}}</p>
+      <ion-icon [style]="{'color': wifi ? 'green' : 'red'}" [name]="wifi ? 'wifi-outline': 'alert-circle-outline'"
+        size="large"></ion-icon>
+    </div>
+  </ion-toolbar>
+  <img src="../../assets/logo_png_225px.png" class="logo" alt="logo-intn" />
+
+  <div class="title">
+    <h2>Bienvenido</h2>
+    <p *ngIf="userData">{{userData}}</p>
+  </div>
+
+  <div class="ion-margin-top">
+    <ion-button expand="block" class="ion-margin-top" (click)="login()" color="primary">Iniciar Sesion</ion-button>
+  </div>
+</ion-content>
+<div class="footer-wrapper">
+  <p>{{appVersion}}</p>
+</div>

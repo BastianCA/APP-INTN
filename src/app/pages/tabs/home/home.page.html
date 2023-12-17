@@ -1,0 +1,24 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-title mode="md" class="ion-no-padding">
+      <ion-label>
+        <ion-text color="tertiary">Bienvenido</ion-text>
+        <p><ion-text><strong>{{userName}}</strong></ion-text></p>
+      </ion-label>
+    </ion-title>
+    <ion-icon slot="end" id="main-content" (click)="openUserMenu()" name="person" size="large"></ion-icon>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div id="map"></div>
+  <leaflet-locate-control
+    [map]="map"
+    [options]="locateOptions"
+    ></leaflet-locate-control>
+</ion-content>
+
+<ion-menu #userMenu type="overlay" side="end" contentId="main-content">
+  <app-settings style="height: 100%;"></app-settings>
+</ion-menu>

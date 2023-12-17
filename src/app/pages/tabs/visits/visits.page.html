@@ -1,0 +1,46 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-title mode="md" class="ion-no-padding">
+      <ion-label>
+        <ion-text color="tertiary">Bienvenido</ion-text>
+        <p><ion-text><strong>{{userName}}</strong></ion-text></p>
+      </ion-label>
+    </ion-title>
+    <ion-icon slot="end" id="main-content" (click)="openUserMenu()" name="person" size="large"></ion-icon>
+  </ion-toolbar>
+  <ion-toolbar color="light">
+    <ion-searchbar placeholder="Buscar cliente"></ion-searchbar>
+    <ion-buttons slot="primary">
+      <ion-button (click)="getClient()">
+        <ion-icon slot="icon-only" style="color: black;" ios="refresh-outline" md="refresh-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ng-container *ngFor="let client of clients">
+      <ion-item (click)="openDetail(client)">
+        <ion-avatar aria-hidden="true" slot="start">
+          <img alt="" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+        </ion-avatar>
+        <ion-label>{{client.name}}</ion-label>
+      </ion-item>
+    </ng-container>
+    <div *ngIf="clients.length === 0" style="width: 100%;">
+      <h4 style="color: #7c7c7c; text-align: center;">
+        Sin registros, cree clientes para visualizar.
+      </h4>
+    </div>
+  </ion-list>
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button (click)="openCreateClients()">
+      <ion-icon name="add-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>
+
+<ion-menu #userMenu type="overlay" side="end" contentId="main-content">
+  <app-settings style="height: 100%;"></app-settings>
+</ion-menu>

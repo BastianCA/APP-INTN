@@ -1,0 +1,63 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-title mode="md" class="ion-no-padding">
+      <ion-label>
+        <ion-text color="tertiary">Bienvenido</ion-text>
+        <p><ion-text><strong>{{userName}}</strong></ion-text></p>
+      </ion-label>
+    </ion-title>
+    <ion-icon slot="end" id="main-content" (click)="openUserMenu()" name="person" size="large"></ion-icon>
+  </ion-toolbar>
+  <ion-toolbar [style]="{'--background': 'white'}">
+    <ion-segment [value]="segmentValue" (ionChange)="segmentChanged($event)" [scrollable]="true">
+      <ion-segment-button value="todas">
+        <ion-label>Todos</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="no-terminadas">
+        <ion-label>No Terminados</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="terminadas-enviada">
+        <ion-label>Terminados Enviados</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="terminada-no-enviada">
+        <ion-label>Terminados No Enviados</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ng-container *ngFor="let item of tests">
+    <ion-card color="light">
+      <div style="display: flex; justify-content: space-between; padding: 15px;">
+        <div style="width:50%; display: flex;">
+          <h4 style="margin-top: 0;">N° {{item.idTest}}</h4>
+          <h2 style="margin-left: 20px; margin-top: 0;">{{item.client_name}}</h2>
+        </div>
+        <div style="display: flex; align-items: flex-start;">
+          <p
+            [style]="{'background-color': item.status !== 'No Terminado' ? (item.status === 'Terminado No Enviado' ? 'orange' : 'green') : 'red', 'color':'white', 'border-radius':'5px','padding':'2px'}">
+            {{item.status}}</p>
+        </div>
+      </div>
+      <p style="margin-left: 20px; margin-bottom: 10px;">Dirección : {{item.address}}</p>
+      <div style="display: flex; justify-content: space-between; height: 44px;">
+        <p style="margin-left: 20px; color: #7c7c7c;">{{item.fecha}}</p>
+        <ion-button *ngIf="item.status === 'No Terminado'" fill="clear" [disabled]="item.status !== 'No Terminado'"
+          (click)="openDetail(item)">Terminar</ion-button>
+        <ion-button *ngIf="item.status === 'Terminado No Enviado'" fill="clear"
+          [disabled]="item.status !== 'Terminado No Enviado'" (click)="openSendData(item)">Envíar</ion-button>
+      </div>
+    </ion-card>
+  </ng-container>
+  <div *ngIf="tests.length === 0" style="width: 100%;">
+    <h4 style="text-align: center;">
+      Sin Registros.
+    </h4>
+  </div>
+</ion-content>
+
+<ion-menu #userMenu type="overlay" side="end" contentId="main-content">
+  <app-settings style="height: 100%;"></app-settings>
+</ion-menu>

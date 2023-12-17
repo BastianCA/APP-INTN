@@ -1,0 +1,113 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Datos Cliente</ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button color="light" (click)="cancel()">Volver</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
+  <ion-card style="height: 90%; display: flex; flex-direction: column; overflow: auto; padding: 15px;">
+    <div style="width: 95%; margin-left: 15px; padding: 5px; margin-bottom: 15px; border-bottom: solid 1px #aeaeae;">
+      <h3>
+        Datos Cliente
+      </h3>
+    </div>
+    <form [formGroup]="formgroup" style="display: flex; flex-wrap: wrap; justify-content: space-around; width: 100%;">
+      <ion-item style="width: 45%;">
+        <ion-label position="floating">Nombre</ion-label>
+        <ion-input formControlName="name"></ion-input>
+      </ion-item>
+      <ion-item style="width: 45%;">
+        <ion-label position="floating">RUC</ion-label>
+        <ion-input formControlName="ruc"></ion-input>
+      </ion-item>
+      <ion-item style="width: 45%;">
+        <ion-label position="floating">Direccion</ion-label>
+        <ion-input formControlName="address"></ion-input>
+      </ion-item>
+      <ion-item style="width: 45%;">
+        <ion-label position="floating">Ciudad</ion-label>
+        <ion-input formControlName="city"></ion-input>
+      </ion-item>
+      <ion-item style="width: 45%;">
+        <ion-label position="floating">Email</ion-label>
+        <ion-input formControlName="email"></ion-input>
+      </ion-item>
+      <ion-item style="width: 45%;">
+        <ion-label position="floating">Contacto</ion-label>
+        <ion-input formControlName="contactName"></ion-input>
+      </ion-item>
+      <ion-item style="width: 45%;">
+        <ion-label position="floating">Telefono de contacto</ion-label>
+        <ion-input formControlName="contactPhone"></ion-input>
+      </ion-item>
+      <ion-item style="width: 45%;">
+        <ion-label position="floating">Telefono de contacto +</ion-label>
+        <ion-input formControlName="contactPhone2"></ion-input>
+      </ion-item>
+    </form>
+    <div style="width: 95%; margin-left: 15px; padding: 5px; margin-bottom: 15px; border-bottom: solid 1px #aeaeae;">
+      <h3>
+        Datos para la generacion de expediente y facturación
+      </h3>
+    </div>
+    <form [formGroup]="formgroup3" style="display: flex; flex-wrap: wrap; justify-content: space-around; width: 100%;">
+      <ion-item style="width: 45%;">
+        <ion-label position="floating">Nombre</ion-label>
+        <ion-input formControlName="name"></ion-input>
+      </ion-item>
+      <ion-item style="width: 45%;">
+        <ion-label position="floating">RUC</ion-label>
+        <ion-input formControlName="ruc"></ion-input>
+      </ion-item>
+      <ion-item style="width: 45%;">
+        <ion-label position="floating">Direccion</ion-label>
+        <ion-input formControlName="address"></ion-input>
+      </ion-item>
+      <ion-item style="width: 45%;">
+        <ion-label position="floating">Ciudad</ion-label>
+        <ion-input formControlName="city"></ion-input>
+      </ion-item>
+      <ion-item style="width: 45%;">
+        <ion-label position="floating">Email</ion-label>
+        <ion-input formControlName="email"></ion-input>
+      </ion-item>
+      <ion-item style="width: 45%;">
+        <ion-label position="floating">Contacto</ion-label>
+        <ion-input formControlName="contactName"></ion-input>
+      </ion-item>
+      <ion-item style="width: 45%;">
+        <ion-label position="floating">Telefono de contacto</ion-label>
+        <ion-input formControlName="contactPhone"></ion-input>
+      </ion-item>
+      <ion-item style="width: 45%;">
+        <ion-label position="floating">Telefono de contacto +</ion-label>
+        <ion-input formControlName="contactPhone2"></ion-input>
+      </ion-item>
+    </form>
+    <div style="width: 95%; margin-left: 15px; padding: 5px; margin-bottom: 15px; border-bottom: solid 1px #aeaeae;">
+      <h3>
+        Datos Acompañante
+      </h3>
+    </div>
+    <form [formGroup]="formgroup2" style="display: flex; width: 100%; flex-direction: column; align-items: center;">
+      <ion-item style="width: 90%;">
+        <ion-label position="floating">Nombre Acompañante</ion-label>
+        <ion-input formControlName="name"></ion-input>
+      </ion-item>
+      <ion-item style="width: 90%;">
+        <ion-label position="floating">CI</ion-label>
+        <ion-input formControlName="ci"></ion-input>
+      </ion-item>
+      <ion-item style="width: 90%;">
+        <ion-label position="floating">Cargo</ion-label>
+        <ion-input formControlName="cargo"></ion-input>
+      </ion-item>
+    </form>
+  </ion-card>
+
+  <ion-button expand="block" (click)="openDetail()"
+    [disabled]="!formgroup.valid && !formgroup2.valid && !formgroup3.valid">Comenzar</ion-button>
+</ion-content>

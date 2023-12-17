@@ -10,17 +10,128 @@
  */
 
 /* Core CSS required for Ionic components to work properly */
-@import "@ionic/angular/css/core.css";
+@import "~@ionic/angular/css/core.css";
 
 /* Basic CSS for apps built with Ionic */
-@import "@ionic/angular/css/normalize.css";
-@import "@ionic/angular/css/structure.css";
-@import "@ionic/angular/css/typography.css";
-@import "@ionic/angular/css/display.css";
+@import "~@ionic/angular/css/normalize.css";
+@import "~@ionic/angular/css/structure.css";
+@import "~@ionic/angular/css/typography.css";
+@import '~@ionic/angular/css/display.css';
 
 /* Optional CSS utils that can be commented out */
-@import "@ionic/angular/css/padding.css";
-@import "@ionic/angular/css/float-elements.css";
-@import "@ionic/angular/css/text-alignment.css";
-@import "@ionic/angular/css/text-transformation.css";
-@import "@ionic/angular/css/flex-utils.css";
+@import "~@ionic/angular/css/padding.css";
+@import "~@ionic/angular/css/float-elements.css";
+@import "~@ionic/angular/css/text-alignment.css";
+@import "~@ionic/angular/css/text-transformation.css";
+@import "~@ionic/angular/css/flex-utils.css";
+
+// @import 'swiper/css/bundle';
+@import 'swiper/scss';
+@import 'swiper/scss/keyboard';
+@import 'swiper/scss/pagination';
+
+
+@import "~leaflet/dist/leaflet.css";
+@import "leaflet.locatecontrol/dist/L.Control.Locate.css";
+// .ion-color-white {
+//   --ion-color-base: var(--ion-color-white);
+//   --ion-color-base-rgb: var(--ion-color-white-rgb);
+//   --ion-color-contrast: var(--ion-color-white-contrast);
+//   --ion-color-contrast-rgb: var(--ion-color-white-contrast-rgb);
+//   --ion-color-shade: var(--ion-color-white-shade);
+//   --ion-color-tint: var(--ion-color-white-tint);
+// }
+
+
+html {
+  --ion-dynamic-font: var(--ion-default-dynamic-font);
+}
+
+.leaflet-default-icon-path {
+  background-image: url(https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png);
+}
+
+.login-modal .modal-wrapper {
+  height: 45%;
+  top: 55%;
+  position: absolute;
+  display: block;
+  border-radius: 20px 20px 0 0;
+}
+
+.primary-input {
+  background: aliceblue;
+  --padding-start: 10px !important;
+  color: #999999;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+ion-segment {
+  ion-segment-button {
+    --color: #000000;
+    --color-checked: var(--ion-color-primary);
+  }
+}
+
+
+ion-header {
+
+  ion-toolbar {
+    --padding-start: 16px;
+    --padding-end: 16px;
+    --background: #4484f3;
+    color: white;
+
+    ion-title {
+      max-width: 40vh;
+
+      ion-label {
+        ion-text {
+          font-size: 1rem;
+          color: white;
+        }
+
+        p {
+
+          ion-text {
+            font-size: 1.3rem !important;
+            color: white;
+          }
+        }
+      }
+    }
+
+  }
+}
+
+ion-col {
+  border-top: solid 1px #c9c9c9;
+  border-bottom: solid 1px #2e2e2e;
+  color: #000000;
+  text-align: center;
+}
+
+ion-modal {
+  --height: 100%;
+  --width: 100%;
+}
+
+ion-action-sheet.customActionSheet {
+  border-radius: 25px;
+  --width: 100%;
+}
+
+ion-toast.custom-toast::part(message) {
+  color: white;
+}
+
+ion-checkbox {
+  --size: 27px;
+  --checkbox-background-checked: var(--ion-color-primary);
+}
+
+ion-checkbox::part(container) {
+  border-radius: 6px;
+  border: 2px solid var(--ion-color-primary);
+}

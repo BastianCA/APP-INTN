@@ -1,0 +1,55 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-title mode="md" class="ion-no-padding">
+      <ion-label>
+        <ion-text color="tertiary">Bienvenido</ion-text>
+        <p><ion-text><strong>{{userName}}</strong></ion-text></p>
+      </ion-label>
+    </ion-title>
+    <ion-icon slot="end" id="main-content" (click)="openUserMenu()" name="person" size="large"></ion-icon>
+  </ion-toolbar>
+  <ion-toolbar [style]="{'--background': 'white'}">
+    <ion-segment [value]="segmentValue" (ionChange)="segmentChanged($event)">
+      <ion-segment-button value="todas">
+        <ion-label>Todas</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="pendientes">
+        <ion-label>Pendientes</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="completas">
+        <ion-label>Completas</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+    <ion-buttons slot="primary">
+      <ion-button fill="outline" (click)="deleteAll()" style="color: black; border-radius: 10px;">
+        Limpiar
+        <ion-icon style="color: red;" slot="end" name="trash"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ng-container *ngFor="let item of transactions">
+    <ion-card color="light">
+      <ion-card-header (click)="openDetail(item)">
+        <div style="display: flex; justify-content: space-between;">
+          <h2>{{item.nombre}}</h2>
+          <p>{{item.fecha}}</p>
+        </div>
+      </ion-card-header>
+
+      <ion-card-content>
+        {{item.direccion}}
+      </ion-card-content>
+      <div style="display: flex; justify-content: flex-end;">
+        <ion-button fill="clear" [disabled]="item.estado=== 'COMPLETADA'">Completar</ion-button>
+        <ion-button fill="clear"><ion-icon style="color: red;" name="trash"></ion-icon></ion-button>
+      </div>
+    </ion-card>
+  </ng-container>
+</ion-content>
+
+<ion-menu #userMenu type="overlay" side="end" contentId="main-content">
+  <app-settings style="height: 100%;"></app-settings>
+</ion-menu>

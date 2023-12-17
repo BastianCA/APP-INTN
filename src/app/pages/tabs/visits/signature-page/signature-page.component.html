@@ -1,0 +1,12 @@
+<div class="general-wrapper">
+  <h2 style="margin-left: 20px;">
+    Ingrese su Firma
+  </h2>
+  <div style="display: flex; justify-content: center; align-items: center; margin-bottom: 15px; border-radius: 15px;">
+    <canvas class="signature-pad-canvas" #canvas width="500" height="500" style="touch-action: none;"></canvas>
+  </div>
+</div>
+<div style="width: 100%; display: flex; justify-content: space-around;">
+  <ion-button (click)="clear()">Limpiar</ion-button>
+  <ion-button color="primary" (click)="saveSignature()">Guardar</ion-button>
+</div>

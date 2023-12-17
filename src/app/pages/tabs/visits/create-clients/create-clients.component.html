@@ -1,0 +1,62 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title> Crear Cliente </ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button color="light" (click)="cancel()">Volver</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
+
+  <ion-card style="height: 95%; display: flex; flex-direction: column; justify-content: space-between;">
+    <form [formGroup]="formgroup" style="display: flex; flex-wrap: wrap; justify-content: space-around; width: 100%;">
+      <ion-item style="width: 45%;">
+        <ion-label position="floating">Nombre</ion-label>
+        <ion-input formControlName="name"></ion-input>
+      </ion-item>
+      <ion-item style="width: 45%;">
+        <ion-label position="floating">RUC</ion-label>
+        <ion-input formControlName="ruc"></ion-input>
+      </ion-item>
+      <ion-item style="width: 45%;">
+        <ion-label position="floating">Direccion</ion-label>
+        <ion-input formControlName="address"></ion-input>
+      </ion-item>
+      <ion-item style="width: 45%;">
+        <ion-select label="Departamento" label-placement="floating" formControlName="department">
+          <ng-container *ngFor="let item of departmentsOptions">
+            <ion-select-option [value]="item.id">{{item.name}}</ion-select-option>
+          </ng-container>
+        </ion-select>
+      </ion-item>
+      <ion-item style="width: 45%;">
+        <ion-select label="Ciudad" label-placement="floating" formControlName="city">
+          <ng-container *ngFor="let item of citiesOption">
+            <ion-select-option [value]="item.id">{{item.name}}</ion-select-option>
+          </ng-container>
+        </ion-select>
+      </ion-item>
+      <ion-item style="width: 45%;">
+        <ion-label position="floating">Email</ion-label>
+        <ion-input formControlName="email"></ion-input>
+      </ion-item>
+      <ion-item style="width: 45%;">
+        <ion-label position="floating">Contacto</ion-label>
+        <ion-input formControlName="contactName"></ion-input>
+      </ion-item>
+      <ion-item style="width: 45%;">
+        <ion-label position="floating">Telefono de contacto</ion-label>
+        <ion-input formControlName="contactPhone"></ion-input>
+      </ion-item>
+      <ion-item style="width: 45%;">
+        <ion-label position="floating">Telefono de contacto +</ion-label>
+        <ion-input formControlName="contactPhone2"></ion-input>
+      </ion-item>
+    </form>
+    <div style="width: 100%; text-align: center; margin-bottom: 15px;">
+      <ion-button (click)="addClient()" [disabled]="!formgroup.valid">Guardar</ion-button>
+    </div>
+  </ion-card>
+
+</ion-content>

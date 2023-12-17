@@ -1,0 +1,176 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button color="light" (click)="cancel()">Salir</ion-button>
+
+    </ion-buttons>
+    <h4 style="width: 100%; text-align: center;" slot="end">Resumen Informe</h4>
+  </ion-toolbar>
+</ion-header>
+<div class="ion-padding general-wrapper">
+  <ion-card>
+    <ion-card-header>
+      <ion-item-divider>
+        <h1 slot="start">Informe de Verificación</h1>
+        <h2 slot="end" [style]="{'color': resumeStatus ? 'green':'red', 'margin-left':'0'}">{{resumeStatus ?
+          'APROBADO':'REPROBADO' }}</h2>
+      </ion-item-divider>
+    </ion-card-header>
+    <ion-card-content>
+      <div style="display: flex; width: 100%; justify-content: space-around;">
+        <div style="width: 45%;">
+          <div class="field-container">
+            <h4>Cliente : </h4>
+            <h5 style="margin-left: 15px;">{{clientData?.name}}</h5>
+          </div>
+          <div class="field-container">
+            <h4>Dirección : </h4>
+            <h5 style="margin-left: 15px;">{{clientData?.address}}</h5>
+          </div>
+          <div class="field-container">
+            <h4>Ciudad : </h4>
+            <h5 style="margin-left: 15px;">{{clientData?.city}}</h5>
+          </div>
+          <div class="field-container">
+            <h4>Fecha : </h4>
+            <h5 style="margin-left: 15px;">{{fecha}}</h5>
+          </div>
+        </div>
+        <div style="width: 45%;">
+          <div class="field-container">
+            <h4>RUC : </h4>
+            <h5 style="margin-left: 15px;">{{clientData?.ruc}}</h5>
+          </div>
+          <div class="field-container">
+            <h4>Email : </h4>
+            <h5 style="margin-left: 15px;">{{clientData?.email}}</h5>
+          </div>
+          <div class="field-container">
+            <h4>Telefono de contacto : </h4>
+            <h5 style="margin-left: 15px;">{{clientData?.contactPhone}}</h5>
+          </div>
+        </div>
+      </div>
+      <ion-item-divider style="margin-top: 20px;">
+        <h1>Identificación del Instrumento</h1>
+      </ion-item-divider>
+      <div style="display: flex; justify-content: space-around; width: 100%;">
+        <div class="field-container-inner">
+          <h4>Tipo : </h4>
+          <h5 style="margin-left: 15px;">{{datosEnsayos?.instrumento.tipoBalanza}}</h5>
+        </div>
+        <div class="field-container-inner">
+          <h4>Destinado a : </h4>
+          <h5 style="margin-left: 15px;">{{datosEnsayos?.instrumento.destinado}}</h5>
+        </div>
+      </div>
+      <div style="display: flex; justify-content: space-around; width: 100%;">
+        <div class="field-container-inner">
+          <h4>Modelo : </h4>
+          <h5 style="margin-left: 15px;">{{datosEnsayos?.instrumento.modelo}}</h5>
+        </div>
+        <div class="field-container-inner">
+          <h4>N° Serie : </h4>
+          <h5 style="margin-left: 15px;">{{datosEnsayos?.instrumento.nSerie}}</h5>
+        </div>
+      </div>
+      <div style="display: flex; justify-content: space-around; width: 100%;">
+        <div class="field-container-inner">
+          <h4 style="font-weight: bold;">Carga Máxima : </h4>
+          <h5 style="margin-left: 15px; font-weight: bold;">{{datosEnsayos?.instrumento.cargaMaximaInput}}</h5>
+        </div>
+        <div class="field-container-inner">
+          <h4>Carga Mínima : </h4>
+          <h5 style="margin-left: 15px;">{{datosEnsayos?.instrumento.cargaMinima}}</h5>
+        </div>
+      </div>
+      <div style="display: flex; justify-content: space-around; width: 100%;">
+        <div class="field-container-inner">
+          <h4 style="font-weight: bold;">División : </h4>
+          <h5 style="margin-left: 15px; font-weight: bold;">{{datosEnsayos?.instrumento.divisionInput}}</h5>
+        </div>
+        <div class="field-container-inner">
+          <h4>Evaluación visual instrumento : </h4>
+          <h5 style="margin-left: 15px;">{{datosEnsayos?.instrumento.visualizacionInstrumento}}</h5>
+        </div>
+      </div>
+      <ion-item-divider style="margin-top: 20px;">
+        <h1>Ensayos</h1>
+      </ion-item-divider>
+      <div style="margin-left: 20px;" class="field-container">
+        <h4 style="width: 50%;">Pre-Carga : </h4>
+        <ion-icon [name]="estados?.preCarga === true  ? 'checkmark-done-outline' : 'close-circle-outline'" size="large"
+          [color]="estadoEnsayos.preCarga === 'Aprobado' ? 'success' : 'danger'"></ion-icon>
+        <p>{{estadoEnsayos.preCarga}}</p>
+      </div>
+      <div style="margin-left: 20px;" class="field-container">
+        <h4 style="width: 50%;">Excentricidad (Posición de carga) : </h4>
+        <ion-icon [name]="estados?.influenciaPosicionCarga === true ? 'checkmark-done-outline' : 'close-circle-outline'"
+          size="large" [color]="estadoEnsayos.influenciaPosicionCarga === 'Aprobado' ? 'success' : 'danger'"></ion-icon>
+        <p>{{estadoEnsayos.influenciaPosicionCarga}}</p>
+      </div>
+      <div style="margin-left: 20px;" class="field-container">
+        <h4 style="width: 50%;">Repetibilidad : </h4>
+        <ion-icon [name]="estados?.repetibilidad === true ? 'checkmark-done-outline' : 'close-circle-outline'"
+          size="large" [color]="estadoEnsayos.repetibilidad === 'Aprobado' ? 'success' : 'danger'"></ion-icon>
+        <p>{{estadoEnsayos.repetibilidad}}</p>
+      </div>
+      <div style="margin-left: 20px;" class="field-container">
+        <h4 style="width: 50%;">Desempeño de carga : </h4>
+        <ion-icon [name]="estados?.desempenoCarga === true ?  'checkmark-done-outline' : 'close-circle-outline'"
+          size="large" [color]="estadoEnsayos.desempenoCarga === 'Aprobado' ? 'success' : 'danger'"></ion-icon>
+        <p>{{estadoEnsayos.desempenoCarga}}</p>
+      </div>
+    </ion-card-content>
+
+  </ion-card>
+  <ion-card style="display: flex; flex-direction: column; margin-bottom: 20px; align-items: center; padding: 10px;">
+    <div style="display: flex; justify-content: space-around; margin-bottom: 10px; width: 100%;">
+      <ion-item style="width: 45%;">
+        <ion-label position="floating">Nombre </ion-label>
+        <ion-input [(ngModel)]="personaAprueba"></ion-input>
+      </ion-item>
+      <ion-item style="width: 45%;">
+        <ion-label position="floating">CI</ion-label>
+        <ion-input type="number" [(ngModel)]="ciAprueba"></ion-input>
+      </ion-item>
+    </div>
+    <ion-item style="width: 90%;">
+      <ion-label position="floating">Marca Verificación</ion-label>
+      <ion-input type="number" [(ngModel)]="marcaVerificacion"></ion-input>
+    </ion-item>
+    <ion-checkbox style="width: 60%; margin-top: 20px;" (ionChange)="handleCheckBox($event)">Informe aprobado por
+      cliente</ion-checkbox>
+    <ion-item style="width: 100%; padding: 15px;">
+      <ion-textarea label="Obervaciones" labelPlacement="floating" placeholder="Ingrese sus observaciones"
+        [counter]="true" maxlength="300" [(ngModel)]="textAreaValue"
+        (ngModelChange)="handleTextAreaValue()"></ion-textarea>
+    </ion-item>
+    <ion-item-divider style="margin-top: 20px;">
+      <h1>Evidencias fotograficas</h1>
+    </ion-item-divider>
+    <ion-grid>
+      <ion-row>
+        <ion-col *ngFor="let photo of photos; index as position">
+          <ion-img style="width: 150px; height: 150px;" [src]="photo.webviewPath"></ion-img>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <p *ngIf="photoServices.photos.length === 0">Sin Registros.</p>
+    <ion-item-divider style="margin-top: 20px;">
+      <h1>Firma</h1>
+    </ion-item-divider>
+    <app-signature-page style="padding: 5px; width: 100%;" *ngIf="canWritte" (base64)="handleBase64($event)">
+    </app-signature-page>
+    <ion-button *ngIf="!canWritte" color="primary" [disabled]="this.base64Data !== undefined"
+      (click)="createSignature()">{{this.base64Data === undefined ? 'Agregar Firma' : 'Firma Guardada'}}</ion-button>
+    <div style="width: 100%; display: flex; justify-content: space-between;">
+      <ion-button color="primary" (click)="sendData()" [disabled]="sendButton">Enviar</ion-button>
+    </div>
+  </ion-card>
+  <ion-fab vertical="bottom" horizontal="center" slot="fixed">
+    <ion-fab-button (click)="addPhotoToGallery()">
+      <ion-icon name="camera"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</div>

@@ -5,7 +5,7 @@ const config: CapacitorConfig = {
   appName: 'APP_METCI',
   webDir: 'www',
   server: {
-    androidScheme: 'https'
+    androidScheme: 'http'
   }
 };
 
