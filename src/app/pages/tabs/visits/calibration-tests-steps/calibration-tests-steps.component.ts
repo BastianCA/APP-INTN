@@ -167,6 +167,9 @@ export class CalibrationTestsStepsComponent implements OnInit {
   }
 
   initForm(step: any) {
+    if (this.steps[this.currentStep].principalInput) {
+      this.inputPrincipalValue = '';
+    }
     this.formGroup = new FormGroup({});
     this.initValuesForm(step.inputs);
     if (step.inputSubtitle) {
@@ -376,8 +379,7 @@ export class CalibrationTestsStepsComponent implements OnInit {
     }
     this.formsValues[this.currentStep] =
       this.steps[this.currentStep].repeatSteps;
-    // if (this.steps[this.currentStep].principalInput) {
-    // }
+    
     this.updateTestData('No Terminado');
     this.presentToast();
     setTimeout(() => {
@@ -537,25 +539,34 @@ export class CalibrationTestsStepsComponent implements OnInit {
           //@ts-ignore
           this.formGroup.get('eMep')?.setValue('REP');
         }
-        this.steps[this.currentStep].repeatSteps.push({
-          cargaAplicada: this.inputPrincipalValue,
-          ...this.formGroup.getRawValue(),
-        });
-      } else {
-        this.steps[this.currentStep].repeatSteps.push({
-          cargaAplicada: this.inputPrincipalValue,
-          ...this.formGroup.getRawValue(),
-        });
+        this.steps[this.currentStep].repeatSteps.push(
+          this.formGroup.getRawValue()
+        );
       }
-
+      if (this.currentStep === 1) {
+        this.steps[this.currentStep].repeatSteps.push(
+          this.formGroup.getRawValue()
+        );
+      }
       if (this.currentStep === 2) {
+        console.log(
+          this.formGroup.get('cargaAplicada')?.value,
+          this.inputPrincipalValue
+        );
+
+        this.steps[this.currentStep].repeatSteps.push({
+          cargaAplicada: this.formGroup.get('cargaAplicada')?.value,
+          ...this.formGroup.getRawValue(),
+        });
         this.stepChargePositionCal();
       }
       if (this.currentStep === 3) {
+        this.steps[this.currentStep].repeatSteps.push({
+          repetibilidadAl: this.formGroup.get('repetibilidadAl')?.value,
+          ...this.formGroup.getRawValue(),
+        });
         this.stepPreCargaCal();
       }
-      //@ts-ignore
-      this.formGroup.get('cargaAplicada')?.setValue('');
       //@ts-ignore
       this.formGroup.get('indicacion')?.setValue('');
       //@ts-ignore
@@ -600,6 +611,8 @@ export class CalibrationTestsStepsComponent implements OnInit {
         element.errorInstrumento = diferencia;
       }
     });
+    console.log(this.inputPrincipalValue, '1');
+
     this.steps[this.currentStep].repeatSteps.forEach(
       (element: any) =>
         (element.mep = this.calculateMep(this.inputPrincipalValue))
@@ -614,6 +627,8 @@ export class CalibrationTestsStepsComponent implements OnInit {
   }
 
   calculateMep(cargaAplicada: any) {
+    console.log(cargaAplicada, '2');
+
     if (cargaAplicada >= 0 && cargaAplicada <= this.rangos[0]) {
       return +this.formsValues[0].divisionInput * 1;
     } else if (cargaAplicada <= this.rangos[1]) {

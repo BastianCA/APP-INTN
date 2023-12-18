@@ -74,7 +74,7 @@ export class HistoryComponent implements OnInit {
     const update: any = this.activatedRoute.snapshot.paramMap;
     console.log(update);
 
-    if (update.params.update === true) {
+    if (update.params.update === 'true') {
       this.getTests().then(() => {
         this.filterTests();
       });
@@ -130,8 +130,7 @@ export class HistoryComponent implements OnInit {
   }
 
   async openSendData(element: any) {
-
-    const client_approve = JSON.parse(element.client_data);
+    const client_approve = JSON.parse(element.client_approve);
     const datosEnsayos = JSON.parse(element.data);
     datosEnsayos.idTest = element.idTest;
     const estados = JSON.parse(element.tests_status);
@@ -150,9 +149,9 @@ export class HistoryComponent implements OnInit {
       client: JSON.parse(element.client_data),
       clientApproves: client_approve,
       photos: {
-        firstPhoto: photos[0],
-        secondPhoto: photos[1],
-        thirdPhoto: photos[2],
+        firstPhoto: '',
+        secondPhoto: '',
+        thirdPhoto: '',
       },
     };
     this.generalServices.sendData(body).subscribe(

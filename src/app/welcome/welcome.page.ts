@@ -10,7 +10,7 @@ import { DatabaseService } from '../API/database.service';
   styleUrls: ['./welcome.page.scss'],
 })
 export class WelcomePage implements OnInit {
-  appVersion = '1.0.2';
+  appVersion = '1.0.3';
   disconnectSubscription: any;
   connectSubscription: any;
   networkStatus: ConnectionStatus | any;

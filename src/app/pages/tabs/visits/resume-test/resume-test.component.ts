@@ -157,7 +157,7 @@ export class ResumeTestComponent implements OnInit {
       estados: this.estados,
       client: JSON.parse(this.allData.client_data),
       clientApproves: {
-        check: this.sendButton,
+        check: !this.sendButton,
         ciClient: this.ciAprueba,
         clientName: this.personaAprueba,
         firma: this.base64Data,
@@ -179,6 +179,11 @@ export class ResumeTestComponent implements OnInit {
           this.estados,
           body.photos
         );
+        if (this.action === 'create') {
+          this.navCtrl.navigateForward(['/tabs/visits']);
+        } else {
+          this.navCtrl.navigateForward(['/tabs/history', { update: true }]);
+        }
       },
       (error) => {
         this.dataBaseServices.editTest(
@@ -189,13 +194,14 @@ export class ResumeTestComponent implements OnInit {
           this.estados,
           body.photos
         );
+        if (this.action === 'create') {
+          this.navCtrl.navigateForward(['/tabs/visits']);
+        } else {
+          this.navCtrl.navigateForward(['/tabs/history', { update: true }]);
+        }
       }
     );
-    if (this.action === 'create') {
-      this.navCtrl.navigateForward(['/tabs/visits']);
-    } else {
-      this.navCtrl.navigateForward(['/tabs/history', { update: true }]);
-    }
+    
   }
 
   handleBase64(event: any) {
