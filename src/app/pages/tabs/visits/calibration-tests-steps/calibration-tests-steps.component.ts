@@ -25,6 +25,7 @@ export class CalibrationTestsStepsComponent implements OnInit {
   tabValues: any;
   testData: any[] = [];
   action: any;
+  tableDesign: StepModel[] = firstStepModel;
   constructor(
     private navCtrl: NavController,
     private toastController: ToastController,
@@ -38,12 +39,9 @@ export class CalibrationTestsStepsComponent implements OnInit {
     this.action = this.activatedRoute.snapshot.paramMap;
 
     if (this.action.params.action === 'create') {
-      this.getTestData();
+      this.getTestData(+this.action.params.test);
     } else {
-      this.getTestData().then(() => {
-        this.testData = this.testData.filter(
-          (item) => +item.idTest === +this.action.params.test
-        );
+      this.getTestData(+this.action.params.test).then(() => {
         this.clientData = JSON.parse(this.testData[0].client_data);
         const datos = JSON.parse(this.testData[0].data);
         setTimeout(() => {
@@ -95,11 +93,20 @@ export class CalibrationTestsStepsComponent implements OnInit {
     this.steps[2].repeatSteps = datos.influenciaPosicionCarga;
     this.steps[3].repeatSteps = datos.repetibilidad;
     this.steps[4].repeatSteps = datos.desempenoCarga;
+    this.tableDesign[1].repeatSteps = datos.preCarga;
+    this.tableDesign[2].repeatSteps = datos.influenciaPosicionCarga;
+    this.tableDesign[3].repeatSteps = datos.repetibilidad;
+    this.tableDesign[4].repeatSteps = datos.desempenoCarga;
     this.setValues(this.steps[this.currentStep]);
+    console.log(this.action.params.disableForm);
+
+    if (this.action.params.disableForm) {
+      this.formGroup.disable();
+    }
   }
 
-  async getTestData() {
-    const datos: any = await this.databaseService.loadTests();
+  async getTestData(id: any) {
+    const datos: any = await this.databaseService.loadTestsById(id);
     this.testData = datos;
   }
 
@@ -178,6 +185,12 @@ export class CalibrationTestsStepsComponent implements OnInit {
     if (step.inputSubtitle2) {
       this.initValuesForm(step.inputSubtitle2);
     }
+
+    if (this.action.params.disableForm) {
+      setTimeout(() => {
+        this.formGroup.disable();
+      }, 500);
+    }
   }
 
   overWriteValues() {
@@ -198,6 +211,48 @@ export class CalibrationTestsStepsComponent implements OnInit {
     }
   }
 
+  filterTableDesign() {
+    let originalData = [...this.tableDesign[this.currentStep].repeatSteps];
+
+    // Separar la primera fila
+    let primeraFila = originalData.shift();
+
+    const sonIguales = (obj1: any, obj2: any) => {
+      // Lógica de comparación personalizada
+      // En este ejemplo, se compara cada propiedad del objeto
+      const propiedadesObj1 = Object.keys(obj1);
+      const propiedadesObj2 = Object.keys(obj2);
+
+      if (propiedadesObj1.length !== propiedadesObj2.length) {
+        return false;
+      }
+
+      for (const element of propiedadesObj1) {
+        const propiedad = element;
+        if (obj1[propiedad] !== obj2[propiedad]) {
+          return false;
+        }
+      }
+
+      return true;
+    };
+
+    const existePrimeraFila = originalData.some((element) =>
+      sonIguales(element, primeraFila)
+    );
+
+    if (existePrimeraFila) {
+      originalData.forEach((fila) => {
+        fila.mep = '';
+        fila.eMep = '';
+        fila.errorInstrumento = '';
+      });
+      const arregloMapeado = [primeraFila, ...originalData];
+      console.log(arregloMapeado);
+      this.tableDesign[this.currentStep].repeatSteps = arregloMapeado;
+    }
+  }
+
   cleanAllValues() {
     this.currentStep = 0;
     this.formsValues = [];
@@ -205,6 +260,10 @@ export class CalibrationTestsStepsComponent implements OnInit {
     this.steps[2].repeatSteps = [];
     this.steps[3].repeatSteps = [];
     this.steps[4].repeatSteps = [];
+    this.tableDesign[1].repeatSteps = [];
+    this.tableDesign[2].repeatSteps = [];
+    this.tableDesign[3].repeatSteps = [];
+    this.tableDesign[4].repeatSteps = [];
     this.steps[1].completed = false;
     this.steps[2].completed = false;
     this.steps[3].completed = false;
@@ -212,23 +271,27 @@ export class CalibrationTestsStepsComponent implements OnInit {
   }
 
   async cancel() {
-    this.overWriteValues();
-    this.updateTestData('No Terminado');
-    const toast = await this.toastController.create({
-      message: 'Ensayo Guardado Correctamente.',
-      duration: 1500,
-      position: 'top',
-      color: 'success',
-      cssClass: 'custom-toast',
-    });
-    await toast.present();
     const action: any = this.activatedRoute.snapshot.paramMap;
-    if (action.params.action === 'create') {
-      this.navCtrl.navigateForward(['/tabs/visits']);
+    if (!action.params.disableForm) {
+      this.overWriteValues();
+      this.updateTestData('No Terminado');
+      const toast = await this.toastController.create({
+        message: 'Ensayo Guardado Correctamente.',
+        duration: 1500,
+        position: 'top',
+        color: 'success',
+        cssClass: 'custom-toast',
+      });
+      await toast.present();
+      if (action.params.action === 'create') {
+        this.navCtrl.navigateForward(['/tabs/visits']);
+      } else {
+        this.navCtrl.navigateForward(['/tabs/history', { update: true }]);
+      }
+      this.cleanAllValues();
     } else {
       this.navCtrl.navigateForward(['/tabs/history', { update: true }]);
     }
-    this.cleanAllValues();
   }
 
   async nextStep() {
@@ -379,7 +442,7 @@ export class CalibrationTestsStepsComponent implements OnInit {
     }
     this.formsValues[this.currentStep] =
       this.steps[this.currentStep].repeatSteps;
-    
+    this.filterTableDesign();
     this.updateTestData('No Terminado');
     this.presentToast();
     setTimeout(() => {
@@ -601,17 +664,28 @@ export class CalibrationTestsStepsComponent implements OnInit {
 
   stepChargePositionCal() {
     this.steps[this.currentStep].repeatSteps.forEach((element: any) => {
+      let diferenciaMax: any = '';
+      let diferenciaMin: any = '';
       if (element.medio !== '') {
         const valores = [+element.punta1, +element.medio, +element.punta2];
-        const diferencia = Math.max(...valores) - Math.min(...valores);
-        element.errorInstrumento = diferencia;
+        diferenciaMax = Math.abs(
+          this.inputPrincipalValue - Math.max(...valores)
+        );
+        diferenciaMin = Math.abs(
+          this.inputPrincipalValue - Math.min(...valores)
+        );
+        element.errorInstrumento = Math.max(diferenciaMax, diferenciaMin);
       } else {
         const valores = [+element.punta1, +element.punta2];
-        const diferencia = Math.max(...valores) - Math.min(...valores);
-        element.errorInstrumento = diferencia;
+        diferenciaMax = Math.abs(
+          this.inputPrincipalValue - Math.max(...valores)
+        );
+        diferenciaMin = Math.abs(
+          this.inputPrincipalValue - Math.min(...valores)
+        );
+        element.errorInstrumento = Math.max(diferenciaMax, diferenciaMin);
       }
     });
-    console.log(this.inputPrincipalValue, '1');
 
     this.steps[this.currentStep].repeatSteps.forEach(
       (element: any) =>
@@ -726,10 +800,18 @@ export class CalibrationTestsStepsComponent implements OnInit {
     if (this.currentStep === 3) {
       this.stepPreCargaCal();
     }
+    this.filterTableDesign();
   }
 
   cal(value: number, total: number) {
     return value * total;
+  }
+
+  backStepFicha() {
+    this.currentStep = this.currentStep - 1;
+  }
+  nextStepFicha() {
+    this.currentStep = this.currentStep + 1;
   }
 }
 

@@ -28,8 +28,11 @@
         <ion-input formControlName="address"></ion-input>
       </ion-item>
       <ion-item style="width: 45%;">
-        <ion-label position="floating">Ciudad</ion-label>
-        <ion-input formControlName="city"></ion-input>
+        <ion-select label="Ciudad" label-placement="floating" formControlName="city">
+          <ng-container *ngFor="let item of citiesOption">
+            <ion-select-option [value]="item.id">{{item.name}}</ion-select-option>
+          </ng-container>
+        </ion-select>
       </ion-item>
       <ion-item style="width: 45%;">
         <ion-label position="floating">Email</ion-label>
@@ -67,8 +70,11 @@
         <ion-input formControlName="address"></ion-input>
       </ion-item>
       <ion-item style="width: 45%;">
-        <ion-label position="floating">Ciudad</ion-label>
-        <ion-input formControlName="city"></ion-input>
+        <ion-select label="Ciudad" label-placement="floating" formControlName="city">
+          <ng-container *ngFor="let item of citiesOption">
+            <ion-select-option [value]="item.id">{{item.name}}</ion-select-option>
+          </ng-container>
+        </ion-select>
       </ion-item>
       <ion-item style="width: 45%;">
         <ion-label position="floating">Email</ion-label>

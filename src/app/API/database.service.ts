@@ -103,6 +103,11 @@ export class DatabaseService {
     return tests.values;
   }
 
+  async loadTestsById(id: any) {
+    const tests = await this.db.query('SELECT * FROM test WHERE idTest = ?;', [id]);
+    return tests.values;
+  }
+
   async loadDepartmentsbyCitie() {
     const tests = await this.db.query(
       'SELECT wharehouses.name AS wharehouse, cities.name AS city FROM wharehouses JOIN cities ON wharehouses.id = cities.id_wharehouse'

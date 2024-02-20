@@ -43,8 +43,6 @@ export class CreateClientsComponent implements OnInit {
   }
 
   async loadCities(idDepartment: any) {
-    console.log(idDepartment);
-    console.log(this.cities);
 
     this.citiesOption = this.cities?.filter(
       (element: any) => +element.id_wharehouse === +idDepartment
@@ -53,7 +51,6 @@ export class CreateClientsComponent implements OnInit {
 
   addClient() {
     this.databaseService.addClient(this.formgroup.value).then((success) => {
-      console.log(success);
       this.cancel();
     });
   }

@@ -13,13 +13,15 @@ export class VisitDetailsComponent implements OnInit {
   formgroup: any;
   formgroup2: any;
   formgroup3: any;
-
+  citiesOption: any[] | undefined;
   constructor(
     private modalCtrl: ModalController,
     private navParams: NavParams,
     private databaseService: DatabaseService,
     private navCtrl: NavController
-  ) {}
+  ) {
+    this.getCities();
+  }
 
   ngOnInit() {
     this.clientData = this.navParams.get('eventData');
@@ -70,6 +72,9 @@ export class VisitDetailsComponent implements OnInit {
       ci: new FormControl('', Validators.required),
       cargo: new FormControl('', Validators.required),
     });
+
+    this.formgroup.get('city').setValue(+this.clientData.city)
+    this.formgroup3.get('city').setValue(+this.clientData.city)
   }
   cancel() {
     return this.modalCtrl.dismiss(false, 'cancel');
@@ -115,5 +120,10 @@ export class VisitDetailsComponent implements OnInit {
     };
     this.databaseService.addTest(testData);
     this.confirm();
+  }
+
+  async getCities() {
+    const cities = await this.databaseService.loadCities();
+    this.citiesOption = cities;
   }
 }

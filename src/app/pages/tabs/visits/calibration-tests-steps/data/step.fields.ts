@@ -71,6 +71,7 @@ export const firstStepModel: StepModel[] = [
         disabled: false,
         required: true,
         width: '45%',
+        multiSelect: true
       },
 
       {

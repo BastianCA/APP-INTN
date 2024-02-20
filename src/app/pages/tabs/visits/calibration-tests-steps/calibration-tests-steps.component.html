@@ -3,141 +3,256 @@
     <ion-buttons slot="start">
       <ion-button color="light" (click)="cancel()">Volver</ion-button>
     </ion-buttons>
-    <h4 style="width: 100%; text-align: center;" slot="end">{{ steps[currentStep].title }}</h4>
+    <h4 style="width: 100%; text-align: center" slot="end">
+      {{ steps[currentStep].title }}
+    </h4>
   </ion-toolbar>
 </ion-header>
-<ion-progress-bar style="margin-top: 10px;" [value]="(currentStep + 1) / steps.length"></ion-progress-bar>
+<ion-progress-bar
+  style="margin-top: 10px"
+  [value]="(currentStep + 1) / steps.length"
+></ion-progress-bar>
 <div class="ion-padding general-wrapper">
-  <ion-segment *ngIf="currentStep > 1" [scrollable]="true" [value]="segmentLabelValue"
-    style="background: white; border-radius: 10px;">
-    <ion-segment-button *ngFor="let element of tabValues; let i = index" [value]="element.title"
-      (click)="selectSegment(element.title, i)">{{element.title | capitalize}}
+  <ion-segment
+    *ngIf="currentStep > 1"
+    [scrollable]="true"
+    [value]="segmentLabelValue"
+    style="background: white; border-radius: 10px"
+  >
+    <ion-segment-button
+      *ngFor="let element of tabValues; let i = index"
+      [value]="element.title"
+      (click)="selectSegment(element.title, i)"
+      >{{ element.title | capitalize }}
     </ion-segment-button>
   </ion-segment>
-  <ion-card style="height: 80%;">
+  <ion-card style="height: 80%">
     <div class="card-container">
-      <div *ngIf="steps[currentStep].principalInput" style="margin-bottom: 25px;">
-        <ion-item [style]="{'width': steps[currentStep].principalInput?.width, 'margin-left': '20px'}">
-          <ion-label position="floating">{{steps[currentStep].principalInput?.placeHold}}</ion-label>
-          <ion-input [disabled]="steps[currentStep].repeatSteps.length > 0" type='number'
-            [(ngModel)]="inputPrincipalValue" (ngModelChange)="handleValueChange()"></ion-input>
+      <div
+        *ngIf="steps[currentStep].principalInput"
+        style="margin-bottom: 25px"
+      >
+        <ion-item
+          [style]="{
+            width: steps[currentStep].principalInput?.width,
+            'margin-left': '20px'
+          }"
+        >
+          <ion-label position="floating">{{
+            steps[currentStep].principalInput?.placeHold
+          }}</ion-label>
+          <ion-input
+            [disabled]="steps[currentStep].repeatSteps.length > 0"
+            type="number"
+            [(ngModel)]="inputPrincipalValue"
+            (ngModelChange)="handleValueChange()"
+          ></ion-input>
         </ion-item>
       </div>
       <form [formGroup]="formGroup" class="form-container">
-        <p style="margin-left: 20px;" *ngIf="steps[currentStep].subtitle">{{steps[currentStep].subtitle }}
+        <p style="margin-left: 20px" *ngIf="steps[currentStep].subtitle">
+          {{ steps[currentStep].subtitle }}
         </p>
         <div class="inner-form">
           <ng-container *ngFor="let field of steps[currentStep].inputs">
-            <ion-item *ngIf="field.type === 'input' && !field.showValue"
-              [style]="{'width': field.width, 'margin-left': '20px'}">
-              <ion-label position="floating">{{field.placeHold}}</ion-label>
-              <ion-input [type]="field.typeInput ? field.typeInput:'text'"
-                formControlName="{{field.paramName}}"></ion-input>
+            <ion-item
+              *ngIf="field.type === 'input' && !field.showValue"
+              [style]="{ width: field.width, 'margin-left': '20px' }"
+            >
+              <ion-label position="floating">{{ field.placeHold }}</ion-label>
+              <ion-input
+                [type]="field.typeInput ? field.typeInput : 'text'"
+                formControlName="{{ field.paramName }}"
+              ></ion-input>
             </ion-item>
-            <ion-item *ngIf="field.type === 'select' && !field.showValue"
-              [style]="{'width': field.width, 'margin-left': '20px'}">
-              <ion-select label="{{field.placeHold}}" label-placement="floating" formControlName="{{field.paramName}}"
-                [multiple]="field.multiSelect ? field.multiSelect:false">
+            <ion-item
+              *ngIf="field.type === 'select' && !field.showValue"
+              [style]="{ width: field.width, 'margin-left': '20px' }"
+            >
+              <ion-select
+                label="{{ field.placeHold }}"
+                label-placement="floating"
+                formControlName="{{ field.paramName }}"
+                [multiple]="field.multiSelect ? field.multiSelect : false"
+              >
                 <ng-container *ngFor="let item of field.arrayItems">
-                  <ion-select-option [value]="item.value">{{item.label}}</ion-select-option>
+                  <ion-select-option [value]="item.value">{{
+                    item.label
+                  }}</ion-select-option>
                 </ng-container>
               </ion-select>
             </ion-item>
-            <div *ngIf="field.type === 'input-select'"
-              style="display: flex; justify-content: space-between; width: 90%; margin-left: 20px">
-              <ion-item style="width: 75%;">
-                <ion-label position="floating">{{field.placeHold}}</ion-label>
-                <ion-input [type]="field.typeInput ? field.typeInput:'text'"
-                  formControlName="{{field.paramName}}"></ion-input>
+            <div
+              *ngIf="field.type === 'input-select'"
+              style="
+                display: flex;
+                justify-content: space-between;
+                width: 90%;
+                margin-left: 20px;
+              "
+            >
+              <ion-item style="width: 75%">
+                <ion-label position="floating">{{ field.placeHold }}</ion-label>
+                <ion-input
+                  [type]="field.typeInput ? field.typeInput : 'text'"
+                  formControlName="{{ field.paramName }}"
+                ></ion-input>
               </ion-item>
-              <ion-item style="width: 25%;">
-                <ion-select label="{{ field.placeHold2 }}" label-placement="floating"
-                  formControlName="{{ field.paramName2 }}">
+              <ion-item style="width: 25%">
+                <ion-select
+                  label="{{ field.placeHold2 }}"
+                  label-placement="floating"
+                  formControlName="{{ field.paramName2 }}"
+                >
                   <ng-container *ngFor="let item of field.arrayItems">
-                    <ion-select-option [value]="item.value">{{item.label}}</ion-select-option>
+                    <ion-select-option [value]="item.value">{{
+                      item.label
+                    }}</ion-select-option>
                   </ng-container>
                 </ion-select>
               </ion-item>
             </div>
           </ng-container>
-          <div *ngIf="steps[currentStep].addSteps"
-            style="width: 30%; display: flex; align-items: center; justify-content: center;">
-            <ion-button (click)="addStepTest()" [disabled]="steps[currentStep].controlAddButton">
+          <div
+            *ngIf="steps[currentStep].addSteps"
+            style="
+              width: 30%;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            "
+          >
+            <ion-button
+              (click)="addStepTest()"
+              [disabled]="steps[currentStep].controlAddButton"
+            >
               <ion-icon slot="start" name="add-outline"></ion-icon>
               Agregar
             </ion-button>
           </div>
         </div>
-        <p style="margin-left: 20px;" *ngIf="steps[currentStep].subtitle2">{{steps[currentStep].subtitle2
-          }}
+        <p style="margin-left: 20px" *ngIf="steps[currentStep].subtitle2">
+          {{ steps[currentStep].subtitle2 }}
         </p>
         <div *ngIf="steps[currentStep].inputSubtitle" class="inner-form">
           <ng-container *ngFor="let field of steps[currentStep].inputSubtitle">
-            <ion-item *ngIf="field.type === 'input' && !field.showValue"
-              [style]="{'width': field.width, 'margin-left': '20px'}">
-              <ion-label position="floating">{{field.placeHold}}</ion-label>
-              <ion-input [type]="field.typeInput ? field.typeInput:'text'"
-                formControlName="{{field.paramName}}"></ion-input>
+            <ion-item
+              *ngIf="field.type === 'input' && !field.showValue"
+              [style]="{ width: field.width, 'margin-left': '20px' }"
+            >
+              <ion-label position="floating">{{ field.placeHold }}</ion-label>
+              <ion-input
+                [type]="field.typeInput ? field.typeInput : 'text'"
+                formControlName="{{ field.paramName }}"
+              ></ion-input>
             </ion-item>
-            <ion-item *ngIf="field.type === 'select' && !field.showValue"
-              [style]="{'width': field.width, 'margin-left': '20px'}">
-              <ion-select label="{{field.placeHold}}" label-placement="floating" formControlName="{{field.paramName}}"
-                [multiple]="field.multiSelect ? field.multiSelect:false">
+            <ion-item
+              *ngIf="field.type === 'select' && !field.showValue"
+              [style]="{ width: field.width, 'margin-left': '20px' }"
+            >
+              <ion-select
+                label="{{ field.placeHold }}"
+                label-placement="floating"
+                formControlName="{{ field.paramName }}"
+                [multiple]="field.multiSelect ? field.multiSelect : false"
+              >
                 <ng-container *ngFor="let item of field.arrayItems">
-                  <ion-select-option [value]="item.value">{{item.label}}</ion-select-option>
+                  <ion-select-option [value]="item.value">{{
+                    item.label
+                  }}</ion-select-option>
                 </ng-container>
               </ion-select>
             </ion-item>
-            <div *ngIf="field.type ==='input-select'"
-              style="display: flex; justify-content: space-between; width: 90%; margin-left: 20px">
-              <ion-item style="width: 75%;">
-                <ion-label position="floating">{{field.placeHold}}</ion-label>
-                <ion-input [type]="field.typeInput ? field.typeInput:'text'"
-                  formControlName="{{field.paramName}}"></ion-input>
+            <div
+              *ngIf="field.type === 'input-select'"
+              style="
+                display: flex;
+                justify-content: space-between;
+                width: 90%;
+                margin-left: 20px;
+              "
+            >
+              <ion-item style="width: 75%">
+                <ion-label position="floating">{{ field.placeHold }}</ion-label>
+                <ion-input
+                  [type]="field.typeInput ? field.typeInput : 'text'"
+                  formControlName="{{ field.paramName }}"
+                ></ion-input>
               </ion-item>
-              <ion-item style="width: 25%;">
-                <ion-select label="{{ field.placeHold2 }}" label-placement="floating"
-                  formControlName="{{ field.paramName2 }}">
+              <ion-item style="width: 25%">
+                <ion-select
+                  label="{{ field.placeHold2 }}"
+                  label-placement="floating"
+                  formControlName="{{ field.paramName2 }}"
+                >
                   <ng-container *ngFor="let item of field.arrayItems">
-                    <ion-select-option [value]="item.value">{{item.label}}</ion-select-option>
+                    <ion-select-option [value]="item.value">{{
+                      item.label
+                    }}</ion-select-option>
                   </ng-container>
                 </ion-select>
               </ion-item>
             </div>
           </ng-container>
         </div>
-        <p style="margin-left: 20px;" *ngIf="steps[currentStep].subtitle3">{{steps[currentStep].subtitle3
-          }}
+        <p style="margin-left: 20px" *ngIf="steps[currentStep].subtitle3">
+          {{ steps[currentStep].subtitle3 }}
         </p>
         <div *ngIf="steps[currentStep].inputSubtitle2" class="inner-form">
           <ng-container *ngFor="let field of steps[currentStep].inputSubtitle2">
-            <ion-item *ngIf="field.type === 'input' && !field.showValue"
-              [style]="{'width': field.width, 'margin-left': '20px'}">
-              <ion-label position="floating">{{field.placeHold}}</ion-label>
-              <ion-input [type]="field.typeInput ? field.typeInput:'text'"
-                formControlName="{{field.paramName}}"></ion-input>
+            <ion-item
+              *ngIf="field.type === 'input' && !field.showValue"
+              [style]="{ width: field.width, 'margin-left': '20px' }"
+            >
+              <ion-label position="floating">{{ field.placeHold }}</ion-label>
+              <ion-input
+                [type]="field.typeInput ? field.typeInput : 'text'"
+                formControlName="{{ field.paramName }}"
+              ></ion-input>
             </ion-item>
-            <ion-item *ngIf="field.type === 'select' && !field.showValue"
-              [style]="{'width': field.width, 'margin-left': '20px'}">
-              <ion-select label="{{field.placeHold}}" label-placement="floating" formControlName="{{field.paramName}}"
-                [multiple]="field.multiSelect ? field.multiSelect:false">
+            <ion-item
+              *ngIf="field.type === 'select' && !field.showValue"
+              [style]="{ width: field.width, 'margin-left': '20px' }"
+            >
+              <ion-select
+                label="{{ field.placeHold }}"
+                label-placement="floating"
+                formControlName="{{ field.paramName }}"
+                [multiple]="field.multiSelect ? field.multiSelect : false"
+              >
                 <ng-container *ngFor="let item of field.arrayItems">
-                  <ion-select-option [value]="item.value">{{item.label}}</ion-select-option>
+                  <ion-select-option [value]="item.value">{{
+                    item.label
+                  }}</ion-select-option>
                 </ng-container>
               </ion-select>
             </ion-item>
-            <div *ngIf="field.type ==='input-select'"
-              style="display: flex; justify-content: space-between; width: 90%; margin-left: 20px">
-              <ion-item style="width: 75%;">
-                <ion-label position="floating">{{field.placeHold}}</ion-label>
-                <ion-input [type]="field.typeInput ? field.typeInput:'text'"
-                  formControlName="{{field.paramName}}"></ion-input>
+            <div
+              *ngIf="field.type === 'input-select'"
+              style="
+                display: flex;
+                justify-content: space-between;
+                width: 90%;
+                margin-left: 20px;
+              "
+            >
+              <ion-item style="width: 75%">
+                <ion-label position="floating">{{ field.placeHold }}</ion-label>
+                <ion-input
+                  [type]="field.typeInput ? field.typeInput : 'text'"
+                  formControlName="{{ field.paramName }}"
+                ></ion-input>
               </ion-item>
-              <ion-item style="width: 25%;">
-                <ion-select label="{{ field.placeHold2 }}" label-placement="floating"
-                  formControlName="{{ field.paramName2 }}">
+              <ion-item style="width: 25%">
+                <ion-select
+                  label="{{ field.placeHold2 }}"
+                  label-placement="floating"
+                  formControlName="{{ field.paramName2 }}"
+                >
                   <ng-container *ngFor="let item of field.arrayItems">
-                    <ion-select-option [value]="item.value">{{item.label}}</ion-select-option>
+                    <ion-select-option [value]="item.value">{{
+                      item.label
+                    }}</ion-select-option>
                   </ng-container>
                 </ion-select>
               </ion-item>
@@ -145,55 +260,191 @@
           </ng-container>
         </div>
       </form>
-      <div *ngIf="steps[currentStep].addSteps" style="max-height: 60vh; margin-top: 20px; overflow: auto;">
-        <div style="display: flex; justify-content: space-around; width: 100%;">
-          <h4 style="margin-left: 20px;">Tabla de Mediciones</h4>
+      <div
+        *ngIf="steps[currentStep].addSteps"
+        style="max-height: 60vh; margin-top: 20px; overflow: auto"
+      >
+        <div style="display: flex; justify-content: space-around; width: 100%">
+          <h4 style="margin-left: 20px">Tabla de Mediciones</h4>
+          <p style="margin-left: 10px">
+            e = d : {{ formsValues[0].divisionInput }}
+          </p>
         </div>
-        <ion-grid>
+        <ion-grid *ngIf="currentStep < 1">
           <ion-row>
             <ng-container *ngFor="let item of steps[currentStep].inputs">
-              <ion-col>{{item.placeHold}}</ion-col>
+              <ion-col>{{ item.placeHold }}</ion-col>
             </ng-container>
             <ion-col></ion-col>
           </ion-row>
-          <ng-container *ngFor="let repeatItem of steps[currentStep].repeatSteps let i = index">
+          <ng-container
+            *ngFor="
+              let repeatItem of steps[currentStep].repeatSteps;
+              let i = index
+            "
+          >
             <ion-row>
-              <ion-col *ngIf="repeatItem.cargaAplicada">{{ repeatItem.cargaAplicada | separadorMiles }}</ion-col>
-              <ion-col *ngIf="repeatItem.indicacion">{{ repeatItem.indicacion | separadorMiles }}</ion-col>
-              <ion-col *ngIf="repeatItem.punta1">{{ repeatItem.punta1 | separadorMiles }}</ion-col>
-              <ion-col *ngIf="repeatItem.medio >= 0">{{ repeatItem.medio | separadorMiles }}</ion-col>
-              <ion-col *ngIf="repeatItem.punta2">{{ repeatItem.punta2 | separadorMiles }}</ion-col>
-              <ion-col style="font-weight: bold;">
-                {{ repeatItem.errorInstrumento }}</ion-col>
-              <ion-col *ngIf="repeatItem.direccion">{{ repeatItem.direccion }}</ion-col>
-              <ion-col *ngIf="repeatItem.mep" style="font-weight: bold;">{{ repeatItem.mep | separadorMiles}}</ion-col>
+              <ion-col *ngIf="repeatItem.cargaAplicada">{{
+                repeatItem.cargaAplicada | separadorMiles
+              }}</ion-col>
+              <ion-col *ngIf="repeatItem.indicacion">{{
+                repeatItem.indicacion | separadorMiles
+              }}</ion-col>
+              <ion-col *ngIf="repeatItem.punta1">{{
+                repeatItem.punta1 | separadorMiles
+              }}</ion-col>
+              <ion-col *ngIf="repeatItem.medio >= 0">{{
+                repeatItem.medio | separadorMiles
+              }}</ion-col>
+              <ion-col *ngIf="repeatItem.punta2">{{
+                repeatItem.punta2 | separadorMiles
+              }}</ion-col>
+              <ion-col style="font-weight: bold">
+                {{ repeatItem.errorInstrumento }}</ion-col
+              >
+              <ion-col *ngIf="repeatItem.direccion">{{
+                repeatItem.direccion
+              }}</ion-col>
+              <ion-col *ngIf="repeatItem.mep" style="font-weight: bold">{{
+                repeatItem.mep | separadorMiles
+              }}</ion-col>
               <ion-col *ngIf="repeatItem.eMep">
-                <p [class]="repeatItem.eMep === 'OK'?'ok':'rep'">
+                <p [class]="repeatItem.eMep === 'OK' ? 'ok' : 'rep'">
                   {{ repeatItem.eMep }}
                 </p>
               </ion-col>
-              <ion-col *ngIf="repeatItem.balanzaPesoSensible">{{ repeatItem.balanzaPesoSensible }}</ion-col>
+              <ion-col *ngIf="repeatItem.balanzaPesoSensible">{{
+                repeatItem.balanzaPesoSensible
+              }}</ion-col>
               <ion-col *ngIf="repeatItem.respuesta">
-                <p [class]="repeatItem.respuesta === 'SI'?'ok':'rep'">
-                  {{repeatItem.respuesta }}
+                <p [class]="repeatItem.respuesta === 'SI' ? 'ok' : 'rep'">
+                  {{ repeatItem.respuesta }}
                 </p>
               </ion-col>
-              <ion-col><ion-icon (click)="deleteRow(i)" style="color: red;" name="trash-outline"></ion-icon></ion-col>
+              <ion-col
+                ><ion-icon
+                  (click)="deleteRow(i)"
+                  style="color: red"
+                  name="trash-outline"
+                ></ion-icon
+              ></ion-col>
             </ion-row>
           </ng-container>
-          <p *ngIf="steps[currentStep].repeatSteps?.length === 0" style="text-align: center;">Sin Registros.</p>
+          <p
+            *ngIf="steps[currentStep].repeatSteps?.length === 0"
+            style="text-align: center"
+          >
+            Sin Registros.
+          </p>
+        </ion-grid>
+        <ion-grid *ngIf="currentStep >= 1">
+          <ion-row>
+            <ng-container *ngFor="let item of tableDesign[currentStep].inputs">
+              <ion-col>{{ item.placeHold }}</ion-col>
+            </ng-container>
+            <ion-col></ion-col>
+          </ion-row>
+          <ng-container
+            *ngFor="
+              let repeatItem of steps[currentStep].repeatSteps;
+              let i = index
+            "
+          >
+            <ion-row>
+              <ion-col *ngIf="repeatItem.cargaAplicada">{{
+                repeatItem.cargaAplicada | separadorMiles
+              }}</ion-col>
+              <ion-col *ngIf="repeatItem.indicacion">{{
+                repeatItem.indicacion | separadorMiles
+              }}</ion-col>
+              <ion-col *ngIf="repeatItem.punta1">{{
+                repeatItem.punta1 | separadorMiles
+              }}</ion-col>
+              <ion-col *ngIf="repeatItem.medio >= 0">{{
+                repeatItem.medio | separadorMiles
+              }}</ion-col>
+              <ion-col *ngIf="repeatItem.punta2">{{
+                repeatItem.punta2 | separadorMiles
+              }}</ion-col>
+              <ion-col style="font-weight: bold">
+                {{ repeatItem.errorInstrumento }}</ion-col
+              >
+              <ion-col *ngIf="repeatItem.direccion">{{
+                repeatItem.direccion
+              }}</ion-col>
+              <ion-col style="font-weight: bold">{{
+                repeatItem.mep | separadorMiles
+              }}</ion-col>
+              <ion-col>
+                <p [class]="repeatItem.eMep === 'OK' ? 'ok' : 'rep'">
+                  {{ repeatItem.eMep }}
+                </p>
+              </ion-col>
+              <ion-col *ngIf="repeatItem.balanzaPesoSensible">{{
+                repeatItem.balanzaPesoSensible
+              }}</ion-col>
+              <ion-col *ngIf="repeatItem.respuesta">
+                <p [class]="repeatItem.respuesta === 'SI' ? 'ok' : 'rep'">
+                  {{ repeatItem.respuesta }}
+                </p>
+              </ion-col>
+              <ion-col
+                ><ion-icon
+                  (click)="deleteRow(i)"
+                  style="color: red"
+                  name="trash-outline"
+                ></ion-icon
+              ></ion-col>
+            </ion-row>
+          </ng-container>
+          <p
+            *ngIf="steps[currentStep].repeatSteps?.length === 0"
+            style="text-align: center"
+          >
+            Sin Registros.
+          </p>
         </ion-grid>
       </div>
     </div>
   </ion-card>
-  <div *ngIf="currentStep < 2" style="display: flex; justify-content: space-around;">
-    <ion-button (click)="prevStep()" [disabled]="currentStep === 0">Atrás</ion-button>
-    <ion-button *ngIf="currentStep === 0" (click)="nextStep()" [disabled]="!formGroup.valid">Siguiente</ion-button>
-    <ion-button *ngIf="currentStep === 1" (click)="nextStep()"
-      [disabled]="steps[currentStep].repeatSteps.length === 0">Siguiente</ion-button>
+  <div
+    *ngIf="currentStep < 2 && this.action.params.disableForm === false"
+    style="display: flex; justify-content: space-around"
+  >
+    <ion-button (click)="prevStep()" [disabled]="currentStep === 0"
+      >Atrás</ion-button
+    >
+    <ion-button
+      *ngIf="currentStep === 0"
+      (click)="nextStep()"
+      [disabled]="!formGroup.valid"
+      >Siguiente</ion-button
+    >
+    <ion-button
+      *ngIf="currentStep === 1"
+      (click)="nextStep()"
+      [disabled]="steps[currentStep].repeatSteps.length === 0"
+      >Siguiente</ion-button
+    >
   </div>
-  <div *ngIf="currentStep >= 2" style="display: flex; justify-content: space-around;">
+  <div
+    *ngIf="this.action.params.disableForm"
+    style="display: flex; justify-content: space-around"
+  >
+    <ion-button [disabled]="currentStep === 0" (click)="backStepFicha()"
+      >Atrás</ion-button
+    >
+    <ion-button (click)="nextStepFicha()">Siguiente</ion-button>
+  </div>
+  <div
+    *ngIf="currentStep >= 2 && this.action.params.disableForm === false"
+    style="display: flex; justify-content: space-around"
+  >
     <ion-button (click)="prevStep2()">Atrás</ion-button>
-    <ion-button (click)="nextStep()" [disabled]="steps[currentStep].repeatSteps.length === 0">Guardar</ion-button>
+    <ion-button
+      (click)="nextStep()"
+      [disabled]="steps[currentStep].repeatSteps.length === 0"
+      >Guardar</ion-button
+    >
   </div>
 </div>

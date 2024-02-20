@@ -121,10 +121,11 @@ export class HistoryComponent implements OnInit {
     this.userMenu.close();
   }
 
-  async openDetail(element: any) {
+  async openDetail(element: any, disbleForm?: boolean) {
     const data = {
       action: 'edit',
       test: element.idTest,
+      disableForm: disbleForm ? disbleForm : false,
     };
     this.navCtrl.navigateForward(['/calibrations-test', data]);
   }

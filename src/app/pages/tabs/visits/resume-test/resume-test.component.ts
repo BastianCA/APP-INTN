@@ -48,30 +48,29 @@ export class ResumeTestComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     public photoServices: PhotoService,
     public generalServices: GeneralServices
-  ) {}
+  ) { }
 
   async ngOnInit() {
     const testData: any = this.activatedRoute.snapshot.paramMap;
 
     this.action = testData.params.action;
-    await this.dataBaseServices.loadTests().then((datos: any) => {
-      const test = datos.filter(
-        (item: any) => +item.idTest === +testData.params.test
-      );
-      this.allData = test[0];
+    await this.dataBaseServices.loadTestsById(testData.params.test).then(async (datos: any) => {
 
-      const client = JSON.parse(test[0].client_data);
+      this.allData = datos[0];
+
+      const client = JSON.parse(datos[0].client_data);
+      console.log(client);
+      
+      this.ciAprueba = client.partner.ci
+      this.personaAprueba = client.partner.name
       this.clientData = client.clientData;
-      this.datosEnsayos = JSON.parse(test[0].data);
-      this.datosEnsayos.idTest = test[0].idTest;
-      this.estados = JSON.parse(test[0].tests_status);
+      this.datosEnsayos = JSON.parse(datos[0].data);
+      this.datosEnsayos.idTest = datos[0].idTest;
+      this.estados = JSON.parse(datos[0].tests_status);
 
       this.estadosEnsayos(this.datosEnsayos, this.estados);
-      this.resumeStatus =
-        this.estados.preCarga =
-        this.estados.influenciaPosicionCarga =
-        this.estados.desempenoCarga =
-          this.estados.repetibilidad;
+
+
     });
     if (this.textAreaValue !== '') {
       this.sendButton = true;
@@ -102,32 +101,23 @@ export class ResumeTestComponent implements OnInit {
   }
 
   estadosEnsayos(ensayos: any, estados: any) {
-    const { preCarga, influenciaPosicionCarga, repetibilidad, desempenoCarga } =
-      ensayos;
-    this.estadoEnsayos.preCarga =
-      preCarga.length > 0
-        ? estados.preCarga
-          ? 'Aprobado'
-          : 'Rechazado'
-        : 'No Realizado';
-    this.estadoEnsayos.influenciaPosicionCarga =
-      influenciaPosicionCarga.length > 0
-        ? estados.influenciaPosicionCarga
-          ? 'Aprobado'
-          : 'Rechazado'
-        : 'No Realizado';
-    this.estadoEnsayos.repetibilidad =
-      repetibilidad.length > 0
-        ? estados.repetibilidad
-          ? 'Aprobado'
-          : 'Rechazado'
-        : 'No Realizado';
-    this.estadoEnsayos.desempenoCarga =
-      desempenoCarga.length > 0
-        ? estados.desempenoCarga
-          ? 'Aprobado'
-          : 'Rechazado'
-        : 'No Realizado';
+
+    this.estadoEnsayos.preCarga = this.obtenerResultado(ensayos.preCarga, estados.preCarga);
+    this.estadoEnsayos.influenciaPosicionCarga = this.obtenerResultado(ensayos.influenciaPosicionCarga, estados.influenciaPosicionCarga);
+    this.estadoEnsayos.repetibilidad = this.obtenerResultado(ensayos.repetibilidad, estados.repetibilidad);
+    this.estadoEnsayos.desempenoCarga = this.obtenerResultado(ensayos.desempenoCarga, estados.desempenoCarga);
+
+
+    this.resumeStatus =
+      this.estados.preCarga =
+      this.estados.influenciaPosicionCarga =
+      this.estados.repetibilidad =
+      this.estados.desempenoCarga;
+    console.log(this.estadoEnsayos);
+  }
+
+  obtenerResultado(condicion: any[], estado: boolean): string {
+    return condicion.length > 0 ? (estado ? 'Aprobado' : 'Rechazado') : 'No Realizado';
   }
 
   async sendData() {
@@ -201,7 +191,7 @@ export class ResumeTestComponent implements OnInit {
         }
       }
     );
-    
+
   }
 
   handleBase64(event: any) {
