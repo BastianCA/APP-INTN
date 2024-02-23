@@ -34,12 +34,14 @@ export class CalibrationTestsStepsComponent implements OnInit {
     private activatedRoute: ActivatedRoute
   ) {}
 
-  ngOnInit() {
+  async ngOnInit() {
     this.tabValues = this.steps.slice(2, 5);
     this.action = this.activatedRoute.snapshot.paramMap;
 
+    this.initForm(this.steps[this.currentStep]);
     if (this.action.params.action === 'create') {
-      this.getTestData(+this.action.params.test);
+      const datos: any = await this.databaseService.loadTests();
+      this.testData[0] = datos[datos.length - 1];
     } else {
       this.getTestData(+this.action.params.test).then(() => {
         this.clientData = JSON.parse(this.testData[0].client_data);
@@ -49,17 +51,16 @@ export class CalibrationTestsStepsComponent implements OnInit {
         }, 1000);
       });
     }
-    this.initForm(this.steps[this.currentStep]);
+    this.generalServices.popUpAction.subscribe((value: any) => {
+      if (value === 'cancel-warning-modal') {
+        this.finalStep();
+      }
+    });
     this.formGroup.get('divisionInput')?.valueChanges.subscribe(() => {
       this.formsValidations();
     });
     this.formGroup.get('cargaMaximaInput')?.valueChanges.subscribe(() => {
       this.formsValidations();
-    });
-    this.generalServices.popUpAction.subscribe((value: any) => {
-      if (value === 'cancel-warning-modal') {
-        this.finalStep();
-      }
     });
     this.formGroup.get('cantidadPesa1000')?.valueChanges.subscribe((data) => {
       //@ts-ignore
@@ -98,15 +99,10 @@ export class CalibrationTestsStepsComponent implements OnInit {
     this.tableDesign[3].repeatSteps = datos.repetibilidad;
     this.tableDesign[4].repeatSteps = datos.desempenoCarga;
     this.setValues(this.steps[this.currentStep]);
-    console.log(this.action.params.disableForm);
-
-    if (this.action.params.disableForm) {
-      this.formGroup.disable();
-    }
   }
 
   async getTestData(id: any) {
-    const datos: any = await this.databaseService.loadTestsById(id);
+    const datos: any = await this.databaseService.loadTestsById(+id);
     this.testData = datos;
   }
 
@@ -174,22 +170,16 @@ export class CalibrationTestsStepsComponent implements OnInit {
   }
 
   initForm(step: any) {
+    this.formGroup = new FormGroup({});
     if (this.steps[this.currentStep].principalInput) {
       this.inputPrincipalValue = '';
     }
-    this.formGroup = new FormGroup({});
     this.initValuesForm(step.inputs);
     if (step.inputSubtitle) {
       this.initValuesForm(step.inputSubtitle);
     }
     if (step.inputSubtitle2) {
       this.initValuesForm(step.inputSubtitle2);
-    }
-
-    if (this.action.params.disableForm) {
-      setTimeout(() => {
-        this.formGroup.disable();
-      }, 500);
     }
   }
 
@@ -248,7 +238,6 @@ export class CalibrationTestsStepsComponent implements OnInit {
         fila.errorInstrumento = '';
       });
       const arregloMapeado = [primeraFila, ...originalData];
-      console.log(arregloMapeado);
       this.tableDesign[this.currentStep].repeatSteps = arregloMapeado;
     }
   }
@@ -272,26 +261,22 @@ export class CalibrationTestsStepsComponent implements OnInit {
 
   async cancel() {
     const action: any = this.activatedRoute.snapshot.paramMap;
-    if (!action.params.disableForm) {
-      this.overWriteValues();
-      this.updateTestData('No Terminado');
-      const toast = await this.toastController.create({
-        message: 'Ensayo Guardado Correctamente.',
-        duration: 1500,
-        position: 'top',
-        color: 'success',
-        cssClass: 'custom-toast',
-      });
-      await toast.present();
-      if (action.params.action === 'create') {
-        this.navCtrl.navigateForward(['/tabs/visits']);
-      } else {
-        this.navCtrl.navigateForward(['/tabs/history', { update: true }]);
-      }
-      this.cleanAllValues();
+    this.overWriteValues();
+    this.updateTestData('No Terminado');
+    const toast = await this.toastController.create({
+      message: 'Ensayo Guardado Correctamente.',
+      duration: 1500,
+      position: 'top',
+      color: 'success',
+      cssClass: 'custom-toast',
+    });
+    await toast.present();
+    if (action.params.action === 'create') {
+      this.navCtrl.navigateForward(['/tabs/visits']);
     } else {
       this.navCtrl.navigateForward(['/tabs/history', { update: true }]);
     }
+    this.cleanAllValues();
   }
 
   async nextStep() {
@@ -404,9 +389,8 @@ export class CalibrationTestsStepsComponent implements OnInit {
     this.overWriteValues();
     this.updateTestData('No Terminado');
     this.currentStep++;
-    this.formGroup = new FormGroup({});
-    this.inputPrincipalValue = '';
     this.initForm(this.steps[this.currentStep]);
+    this.inputPrincipalValue = '';
     this.presentToast();
   }
 
@@ -701,8 +685,6 @@ export class CalibrationTestsStepsComponent implements OnInit {
   }
 
   calculateMep(cargaAplicada: any) {
-    console.log(cargaAplicada, '2');
-
     if (cargaAplicada >= 0 && cargaAplicada <= this.rangos[0]) {
       return +this.formsValues[0].divisionInput * 1;
     } else if (cargaAplicada <= this.rangos[1]) {
@@ -746,7 +728,6 @@ export class CalibrationTestsStepsComponent implements OnInit {
   prevStep() {
     this.currentStep--;
     if (this.steps[this.currentStep].completed === true) {
-      this.formGroup = new FormGroup({});
       this.initForm(this.steps[this.currentStep]);
       this.setValues(this.steps[this.currentStep]);
     }

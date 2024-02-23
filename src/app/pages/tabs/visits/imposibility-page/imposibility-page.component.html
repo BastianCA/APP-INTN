@@ -1,0 +1,63 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Imnposibilidad</ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button color="light" (click)="cancel()">Volver</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
+  <ion-card
+    style="
+      height: 90%;
+      display: flex;
+      flex-direction: column;
+      overflow: auto;
+      padding: 15px;
+    "
+  >
+    <form
+      [formGroup]="formgroup"
+      style="
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        width: 100%;
+      "
+    >
+      <ion-item style="width: 45%">
+        <ion-select
+          label="Motivo"
+          label-placement="floating"
+          formControlName="motivo"
+        >
+          <ng-container *ngFor="let item of dropDownOptions">
+            <ion-select-option [value]="item.id">{{
+              item.name
+            }}</ion-select-option>
+          </ng-container>
+        </ion-select>
+      </ion-item>
+      <ion-item style="width: 45%">
+        <ion-label position="floating">Tecnico</ion-label>
+        <ion-input formControlName="tecnico"></ion-input>
+      </ion-item>
+      <ion-item style="width: 45%">
+        <ion-label position="floating">Chofer</ion-label>
+        <ion-input formControlName="chofer"></ion-input>
+      </ion-item>
+      <ion-item style="width: 45%">
+        <ion-label position="floating">Firma Cliente</ion-label>
+        <ion-input formControlName="firma"></ion-input>
+      </ion-item>
+      <ion-item style="width: 45%">
+        <ion-label position="floating">Comentario</ion-label>
+        <ion-input formControlName="comentario"></ion-input>
+      </ion-item>
+    </form>
+  </ion-card>
+  <ion-button style="margin-top: 15px" expand="block" (click)="cancel()"
+    >Enviar</ion-button
+  >
+</ion-content>

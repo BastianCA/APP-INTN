@@ -43,6 +43,13 @@ const routes: Routes = [
         (m) => m.SignaturePadModule
       ),
   },
+  {
+    path: 'imposibility-page',
+    loadChildren: () =>
+      import('./pages/tabs/visits/imposibility-page/imposibility.module').then(
+        (m) => m.CalibrationTestStepsModule
+      ),
+  },
 ];
 
 @NgModule({

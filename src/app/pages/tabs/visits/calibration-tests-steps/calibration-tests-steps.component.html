@@ -267,7 +267,8 @@
         <div style="display: flex; justify-content: space-around; width: 100%">
           <h4 style="margin-left: 20px">Tabla de Mediciones</h4>
           <p style="margin-left: 10px">
-            e = d : {{ formsValues[0].divisionInput }}
+            e = d :
+            {{ formsValues[0]?.divisionInput }}
           </p>
         </div>
         <ion-grid *ngIf="currentStep < 1">
@@ -408,7 +409,7 @@
     </div>
   </ion-card>
   <div
-    *ngIf="currentStep < 2 && this.action.params.disableForm === false"
+    *ngIf="currentStep < 2"
     style="display: flex; justify-content: space-around"
   >
     <ion-button (click)="prevStep()" [disabled]="currentStep === 0"
@@ -427,17 +428,9 @@
       >Siguiente</ion-button
     >
   </div>
+
   <div
-    *ngIf="this.action.params.disableForm"
-    style="display: flex; justify-content: space-around"
-  >
-    <ion-button [disabled]="currentStep === 0" (click)="backStepFicha()"
-      >Atrás</ion-button
-    >
-    <ion-button (click)="nextStepFicha()">Siguiente</ion-button>
-  </div>
-  <div
-    *ngIf="currentStep >= 2 && this.action.params.disableForm === false"
+    *ngIf="currentStep >= 2"
     style="display: flex; justify-content: space-around"
   >
     <ion-button (click)="prevStep2()">Atrás</ion-button>

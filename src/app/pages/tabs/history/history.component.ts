@@ -19,6 +19,8 @@ import { PhotoService } from 'src/app/API/photo.service';
 })
 export class HistoryComponent implements OnInit {
   @ViewChild('userMenu') userMenu: any;
+  @ViewChild('errorModal') errorModal: any;
+  jsonData: any;
   allTests: any;
   allTestsDomies = [
     {
@@ -45,7 +47,7 @@ export class HistoryComponent implements OnInit {
   tests: any[] = [];
   segmentValue = 'todas';
   userName: any;
-
+  isModalOpen = false;
   constructor(
     private generalServices: GeneralServices,
     private databaseService: DatabaseService,
@@ -72,7 +74,6 @@ export class HistoryComponent implements OnInit {
     });
 
     const update: any = this.activatedRoute.snapshot.paramMap;
-    console.log(update);
 
     if (update.params.update === 'true') {
       this.getTests().then(() => {
@@ -121,13 +122,16 @@ export class HistoryComponent implements OnInit {
     this.userMenu.close();
   }
 
-  async openDetail(element: any, disbleForm?: boolean) {
+  async openDetail(element: any) {
     const data = {
       action: 'edit',
       test: element.idTest,
-      disableForm: disbleForm ? disbleForm : false,
     };
     this.navCtrl.navigateForward(['/calibrations-test', data]);
+  }
+
+  closeModal() {
+    this.isModalOpen = false;
   }
 
   async openSendData(element: any) {
@@ -155,6 +159,7 @@ export class HistoryComponent implements OnInit {
         thirdPhoto: '',
       },
     };
+    this.jsonData = body;
     this.generalServices.sendData(body).subscribe(
       async () => {
         const toast = await this.toastController.create({
@@ -174,6 +179,7 @@ export class HistoryComponent implements OnInit {
           color: 'danger',
         });
         await toast.present();
+        this.isModalOpen = true;
       }
     );
   }

@@ -73,8 +73,8 @@ export class VisitDetailsComponent implements OnInit {
       cargo: new FormControl('', Validators.required),
     });
 
-    this.formgroup.get('city').setValue(+this.clientData.city)
-    this.formgroup3.get('city').setValue(+this.clientData.city)
+    this.formgroup.get('city').setValue(+this.clientData.city);
+    this.formgroup3.get('city').setValue(+this.clientData.city);
   }
   cancel() {
     return this.modalCtrl.dismiss(false, 'cancel');
@@ -103,7 +103,10 @@ export class VisitDetailsComponent implements OnInit {
       partner: this.formgroup2.value,
       facturationData: this.formgroup3.value,
     };
-    const data = { action: 'create' };
+    const data = {
+      action: 'create',
+      disableForm: false,
+    };
     this.navCtrl.navigateForward(['/calibrations-test', data]);
     const testData = {
       clientId: this.formgroup.value.id,
@@ -125,5 +128,28 @@ export class VisitDetailsComponent implements OnInit {
   async getCities() {
     const cities = await this.databaseService.loadCities();
     this.citiesOption = cities;
+  }
+
+  openImposibility() {
+    const clientData = {
+      clientData: this.formgroup.value,
+      partner: this.formgroup2.value,
+      facturationData: this.formgroup3.value,
+    };
+    const testData = {
+      clientId: this.formgroup.value.id,
+      jsonData: {
+        instrumento: [],
+        preCarga: [],
+        influenciaPosicionCarga: [],
+        repetibilidad: [],
+        desempenoCarga: [],
+      },
+      status: 'No Terminado',
+      clientData: clientData,
+      photos: [],
+    };
+    this.navCtrl.navigateForward(['/imposibility-page', testData]);
+    this.confirm();
   }
 }
