@@ -81,7 +81,7 @@
         <p style="margin-left: 20px; color: #7c7c7c">{{ item.fecha }}</p>
 
         <div style="display: flex; align-items: center">
-          <ion-button fill="clear" style="margin-right: 15px">
+          <ion-button fill="clear" style="margin-right: 15px" (click)="openInfo(item)">
             <ion-icon slot="start" name="eye-outline"></ion-icon>
             Ver
           </ion-button>
@@ -122,6 +122,10 @@
         </ion-buttons>
       </ion-toolbar>
     </ion-header>
-    <ion-content class="ion-padding"> {{ jsonData | json}} </ion-content>
+    <ion-content class="ion-padding"
+      ><div style="height: 90%; overflow: auto;">
+        {{ jsonData | json }}
+      </div>
+    </ion-content>
   </ng-template>
 </ion-modal>

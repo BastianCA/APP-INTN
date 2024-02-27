@@ -19,7 +19,7 @@ import { PhotoService } from 'src/app/API/photo.service';
 })
 export class HistoryComponent implements OnInit {
   @ViewChild('userMenu') userMenu: any;
-  @ViewChild('errorModal') errorModal: any;
+  @ViewChild('errorModal') errorModal: any = false;
   jsonData: any;
   allTests: any;
   allTestsDomies = [
@@ -130,8 +130,12 @@ export class HistoryComponent implements OnInit {
     this.navCtrl.navigateForward(['/calibrations-test', data]);
   }
 
+  async openInfo(info: any) {
+    this.navCtrl.navigateForward(['/resume-info', info]);
+  }
+
   closeModal() {
-    this.isModalOpen = false;
+    this.errorModal = false;
   }
 
   async openSendData(element: any) {
@@ -179,7 +183,7 @@ export class HistoryComponent implements OnInit {
           color: 'danger',
         });
         await toast.present();
-        this.isModalOpen = true;
+        this.errorModal = true;
       }
     );
   }

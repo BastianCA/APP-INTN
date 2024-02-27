@@ -347,7 +347,7 @@
           </ion-row>
           <ng-container
             *ngFor="
-              let repeatItem of steps[currentStep].repeatSteps;
+              let repeatItem of tableDesign[currentStep].repeatSteps;
               let i = index
             "
           >
@@ -399,7 +399,7 @@
             </ion-row>
           </ng-container>
           <p
-            *ngIf="steps[currentStep].repeatSteps?.length === 0"
+            *ngIf="tableDesign[currentStep].repeatSteps?.length === 0"
             style="text-align: center"
           >
             Sin Registros.

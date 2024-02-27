@@ -50,6 +50,13 @@ const routes: Routes = [
         (m) => m.CalibrationTestStepsModule
       ),
   },
+  {
+    path: 'resume-info',
+    loadChildren: () =>
+      import('./pages/tabs/visits/resume-info/resume-info.module').then(
+        (m) => m.ResumeInfoModule
+      ),
+  },
 ];
 
 @NgModule({

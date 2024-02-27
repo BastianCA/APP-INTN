@@ -18,10 +18,10 @@ export class ResumeTestComponent implements OnInit {
   datosEnsayos: any;
   fecha = moment().format('DD/MM/yyyy');
   estados = {
-    preCarga: true,
-    influenciaPosicionCarga: true,
-    repetibilidad: true,
-    desempenoCarga: true,
+    preCarga: false,
+    influenciaPosicionCarga: false,
+    repetibilidad: false,
+    desempenoCarga: false,
   };
   resumeStatus = false;
   marcaVerificacion: any;

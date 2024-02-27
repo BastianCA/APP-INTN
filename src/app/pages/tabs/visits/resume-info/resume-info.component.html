@@ -1,0 +1,112 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Ficha Resumen</ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button color="light" (click)="cancel()">Volver</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
+  <div class="card">
+    <ng-container *ngFor="let item of formData; let i = index">
+      <div
+        style="
+          font-size: 22px;
+          font-weight: bold;
+          margin-bottom: 10px;
+          margin-top: 10px;
+        "
+      >
+        {{ "Informe " + item.title }}
+      </div>
+      <div
+        style="
+          display: flex;
+          flex-wrap: wrap;
+          padding: 15px;
+          border: solid 0.5px #b1b1b1;
+          border-radius: 15px;
+        "
+      >
+        <ng-container *ngFor="let element of item.inputs">
+          <div
+            *ngIf="!item.repeatSteps"
+            style="
+              display: flex;
+              width: 30%;
+              margin-right: 16px;
+              white-space: nowrap;
+              overflow: hidden;
+            "
+          >
+            <div style="font-weight: 600; font-size: 16px">
+              {{ element.placeHold }} :
+            </div>
+            <div
+              style="
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+              "
+            >
+              {{ element.defaultValue }}
+            </div>
+          </div>
+        </ng-container>
+
+        <ion-grid *ngIf="item.repeatSteps">
+          <ion-row>
+            <ng-container *ngFor="let element of item.inputs">
+              <ion-col>{{ element.placeHold }}</ion-col>
+            </ng-container>
+          </ion-row>
+          <ng-container *ngFor="let repeatItem of item.repeatSteps">
+            <ion-row>
+              <ion-col *ngIf="repeatItem.cargaAplicada">{{
+                repeatItem.cargaAplicada | separadorMiles
+              }}</ion-col>
+              <ion-col *ngIf="repeatItem.indicacion">{{
+                repeatItem.indicacion | separadorMiles
+              }}</ion-col>
+              <ion-col *ngIf="repeatItem.punta1">{{
+                repeatItem.punta1 | separadorMiles
+              }}</ion-col>
+              <ion-col *ngIf="repeatItem.medio >= 0">{{
+                repeatItem.medio | separadorMiles
+              }}</ion-col>
+              <ion-col *ngIf="repeatItem.punta2">{{
+                repeatItem.punta2 | separadorMiles
+              }}</ion-col>
+              <ion-col style="font-weight: bold">
+                {{ repeatItem.errorInstrumento }}</ion-col
+              >
+              <ion-col *ngIf="repeatItem.direccion">{{
+                repeatItem.direccion
+              }}</ion-col>
+              <ion-col style="font-weight: bold">{{
+                repeatItem.mep | separadorMiles
+              }}</ion-col>
+              <ion-col>
+                <p [class]="repeatItem.eMep === 'OK' ? 'ok' : 'rep'">
+                  {{ repeatItem.eMep }}
+                </p>
+              </ion-col>
+              <ion-col *ngIf="repeatItem.balanzaPesoSensible">{{
+                repeatItem.balanzaPesoSensible
+              }}</ion-col>
+              <ion-col *ngIf="repeatItem.respuesta">
+                <p [class]="repeatItem.respuesta === 'SI' ? 'ok' : 'rep'">
+                  {{ repeatItem.respuesta }}
+                </p>
+              </ion-col>
+            </ion-row>
+          </ng-container>
+          <p *ngIf="item.repeatSteps?.length === 0" style="text-align: center">
+            Sin Registros.
+          </p>
+        </ion-grid>
+      </div>
+    </ng-container>
+  </div>
+</ion-content>

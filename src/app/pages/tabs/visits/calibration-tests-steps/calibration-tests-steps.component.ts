@@ -426,9 +426,9 @@ export class CalibrationTestsStepsComponent implements OnInit {
     }
     this.formsValues[this.currentStep] =
       this.steps[this.currentStep].repeatSteps;
-    this.filterTableDesign();
     this.updateTestData('No Terminado');
     this.presentToast();
+    this.filterTableDesign();
     setTimeout(() => {
       if (this.steps.every((element: any) => element.completed === true)) {
         this.generalServices.presentAlert(
@@ -452,7 +452,6 @@ export class CalibrationTestsStepsComponent implements OnInit {
     if (data.inputs) {
       this.setFormValues(data.inputs, values);
     }
-    this.setFormValues(data.inputs, values);
     if (data.inputSubtitle) {
       this.setFormValues(data.inputSubtitle, values);
     }
